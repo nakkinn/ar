@@ -4,8 +4,12 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
   <body style="margin: 0px; overflow: hidden;">
     <a-scene embedded arjs>
+      <a-assets>
+        <a-asset-item id="object" src="untitled.obj"></a-asset-item>
+        <a-asset-item id="mtl" src="untitled.mtl"></a-asset-item>
+      </a-assets>
       <a-marker type="pattern" url="pattern-marker.patt">
-        <a-box position="0 -1 0" scale="1 1 1" color="grey"></a-box>
+        <a-obj-model src="#object" mtl="#mtl" scale=".1 .1 .1"></a-obj-model>
       </a-marker>
       <a-entity camera></a-entity>
     </a-scene>
