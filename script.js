@@ -5,5 +5,15 @@ function setup(){
 }
 
 function draw(){
-    background(255, 150, 0);
+    background(255);
+
+
+    fill(0);
+    textSize(40);
+
+
+    text(rotationX, 30, 100);
+
+    text(accelerationX, 30, 200);
+
 }
