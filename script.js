@@ -26,7 +26,7 @@ function draw(){
 
     text(rotationZ, 30, 300);
 
-    text(123, 40, 50);
+
 
     //text(accelerationX, 30, 200);
 
