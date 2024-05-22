@@ -1,17 +1,13 @@
-<!DOCTYPE html>
 <html>
-  <script src="https://aframe.io/releases/1.0.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <body style="margin: 0px; overflow: hidden;">
-    <a-scene embedded arjs>
-      <a-assets>
-        <a-asset-item id="object" src="untitled.obj"></a-asset-item>
-        <a-asset-item id="mtl" src="untitled.mtl"></a-asset-item>
-      </a-assets>
-      <a-marker type="pattern" url="pattern-marker.patt">
-        <a-obj-model src="#object" mtl="#mtl" scale="1 1 1"></a-obj-model>
-      </a-marker>
-      <a-entity camera></a-entity>
-    </a-scene>
+  <head>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+
+    <p>ver1.00</p>
+
+    <script src="p5.js"></script>
+    <script src='script.js'></script>
+   
   </body>
 </html>
