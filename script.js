@@ -14,6 +14,10 @@ function draw(){
 
     text(rotationX, 30, 100);
 
-    text(accelerationX, 30, 200);
+    text(rotationY, 30, 200);
+
+    text(rotationZ, 30, 300);
+
+    //text(accelerationX, 30, 200);
 
 }
