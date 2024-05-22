@@ -34,8 +34,13 @@ function draw(){
     subcanvas.clear();
     subcanvas.background(220);
 
-    subcanvas.rotateZ(az)
+    subcanvas.push();
+
+    subcanvas.rotateZ(az);
+
     subcanvas.box(200);
+
+    subcanvas.pop();
 
     image(subcanvas, 30, 400);
 
