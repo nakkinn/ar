@@ -37,11 +37,11 @@ function draw(){
 
 
     let ax = rotationX / 360 * 2 * PI;
-    let ay = rotationY / 360 * 2 * PI;
+    //let ay = rotationY / 360 * 2 * PI;
     let az = rotationZ / 360 * 2 * PI;
 
     cube.rotation.x = - ax;
-    cube.rotation.y = - ay;
+    //cube.rotation.y = - ay;
     cube.rotation.z = - az;
 
     renderer.render(scene, camera);
