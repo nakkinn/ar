@@ -91,6 +91,7 @@ function draw(){
     subcanvas.push();
 
     subcanvas.rotateZ(az);
+    subcanvas.rotateX(ax);
 
 
     subcanvas.box(200);
