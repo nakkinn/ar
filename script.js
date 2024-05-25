@@ -36,7 +36,7 @@ function receive(arg){
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
-    frameRate(2);
+    frameRate(10);
 }
 
 function draw(){
@@ -47,5 +47,5 @@ function draw(){
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.06', 100, 100);
+    text('ver1.07', 100, 100);
 }
