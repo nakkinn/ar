@@ -29,7 +29,7 @@ peer.on('open',()=>{
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
-    frameRate(4);
+    frameRate(6);
 }
 
 function draw(){
@@ -40,5 +40,5 @@ function draw(){
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.08', 100, 100);
+    text('ver1.09', 100, 100);
 }
