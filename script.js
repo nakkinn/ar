@@ -1,8 +1,3 @@
-const button1 = document.getElementById('button1');
-button1.addEventListener('click',()=>{
-    room.send('abc');
-});
-
 //Peer作成
 const peer = new Peer({
     key: 'cf1155ef-ab9f-41a3-bd4a-b99c30cc0663',
@@ -47,12 +42,10 @@ function setup(){
 function draw(){
     background(255);
 
-    if(mouseIsPressed){
-        background(0);
-        room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4));
-    }
+    room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4));
+    
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.05', 100, 100);
+    text('ver1.06', 100, 100);
 }
