@@ -36,7 +36,7 @@ function receive(arg){
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
-    frameRate(10);
+    frameRate(4);
 }
 
 function draw(){
