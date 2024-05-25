@@ -47,7 +47,7 @@ function setup(){
 function draw(){
     background(255);
 
-    if(mouseIsPressed){
+    if(mouseIsPressed || true){
         background(0);
         room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4));
     }
