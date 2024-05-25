@@ -46,9 +46,9 @@ function setup(){
 
 function draw(){
     background(255);
-    if(mouseIsPressed)  background(255);
+    if(mouseIsPressed)  background(5);
 
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.00', 100, 100);
+    text('ver1.01', 100, 100);
 }
