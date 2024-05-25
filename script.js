@@ -41,18 +41,18 @@ function receive(arg){
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
-    frameRate(10);
+    frameRate(2);
 }
 
 function draw(){
     background(255);
 
-    if(mouseIsPressed || true){
+    if(mouseIsPressed){
         background(0);
         room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4));
     }
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.04', 100, 100);
+    text('ver1.05', 100, 100);
 }
