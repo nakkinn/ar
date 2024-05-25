@@ -10,28 +10,21 @@ peer.on('open',()=>{
         mode:'sfu'
     });
     room.on('open',()=>{
-        console.log('join');
+
     });
     room.on('peerJoin',peerId=>{
-        console.log(peerId+"参加");
+
     });
     room.on('peerLeave',peerId=>{
-        console.log(peerId+"退出");
+
     });
     room.on('data',message=>{
-        receive(message.data);
+        
     });
 });
 
 
 
-
-
-
-
-function receive(arg){
-    console.log(arg);
-}
 
 
 function setup(){
@@ -47,5 +40,5 @@ function draw(){
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.07', 100, 100);
+    text('ver1.08', 100, 100);
 }
