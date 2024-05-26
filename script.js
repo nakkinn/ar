@@ -50,5 +50,9 @@ function draw(){
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.11', 100, 100);
+    text('ver1.12', 100, 100);
+
+    text(accelerationX, 100, 400);
+    text(accelerationY, 100, 500);
+    text(accelerationZ, 100, 600);
 }
