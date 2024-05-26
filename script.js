@@ -41,14 +41,14 @@ function draw(){
     vy += accelerationY;
     vz += accelerationZ;
 
-    posx += vx*deltaTime;
-    posy += vy*deltaTime;
-    posz += vz*deltaTime;
+    posx += vx*deltaTime/1000;
+    posy += vy*deltaTime/1000;
+    posz += vz*deltaTime/1000;
 
     if(frameCount%10==0)    room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4) + ',' + posx.toFixed(4) + ',' + posy.toFixed(4) + ',' + posz.toFixed(4));
     
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.10', 100, 100);
+    text('ver1.11', 100, 100);
 }
