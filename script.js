@@ -28,7 +28,7 @@ peer.on('open',()=>{
 let posx=0, posy=0, posz=0;
 let vx=0, vy=0, vz=0;
 
-let alpha, beta, gamma;
+let alpha = 0, beta = 0, gamma = 0;
 
 function handleOrientation(event) {
   alpha = event.alpha;
