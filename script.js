@@ -47,18 +47,14 @@ function setup(){
 }
 
 function draw(){
-    background(255);
+    background(235);
 
     if(frameCount%10==0)    room.send(alpha.toFixed(4) + ',' + beta.toFixed(4) + ',' + gamma.toFixed(4));
     
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.13', 100, 100);
-
-    text(rotationX, 100, 400);
-    text(rotationY, 100, 500);
-    text(rotationZ, 100, 600);
+    text('ver1.14', 100, 100);
 
     text(alpha, 100, 700);
     text(beta, 100, 800);
