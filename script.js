@@ -30,6 +30,8 @@ let vx=0, vy=0, vz=0;
 
 let alpha = 0, beta = 0, gamma = 0;
 
+window.addEventListener('deviceorientation', handleOrientation);
+
 function handleOrientation(event) {
   alpha = event.alpha;
   beta = event.beta;
