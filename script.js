@@ -5,23 +5,26 @@ const peer = new Peer({
 });
 
 
-peer.on('open',()=>{
-    room=peer.joinRoom("may25",{
-        mode:'sfu'
+const button1 = document.getElementById('button1');
+button1.addEventListener('click',()=>{
+    peer.on('open',()=>{
+        room=peer.joinRoom("may25",{
+            mode:'sfu'
+        });
+        room.on('open',()=>{
+    
+        });
+        room.on('peerJoin',peerId=>{
+    
+        });
+        room.on('peerLeave',peerId=>{
+    
+        });
+        room.on('data',message=>{
+            
+        });
     });
-    room.on('open',()=>{
-
-    });
-    room.on('peerJoin',peerId=>{
-
-    });
-    room.on('peerLeave',peerId=>{
-
-    });
-    room.on('data',message=>{
-        
-    });
-});
+}
 
 
 
