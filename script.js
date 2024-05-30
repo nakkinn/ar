@@ -1,7 +1,6 @@
 function post_function( result_string ) {
     if ( result_string === "granted" ) {
         sensoractive = true;
-        console.log(123);
     }
     else if ( result_string === "denied" ) {
 // ユーザが拒否した場合、文字列"denied"が返る
@@ -52,7 +51,7 @@ button1.addEventListener('click',()=>{
             mode:'sfu'
         });
         room.on('open',()=>{
-    
+            connect = true;
         });
         room.on('peerJoin',peerId=>{
     
@@ -93,7 +92,7 @@ function draw(){
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.16', 100, 100);
+    text('ver1.17', 100, 100);
 
     text(alpha, 100, 700);
     text(beta, 100, 800);
