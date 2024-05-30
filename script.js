@@ -44,7 +44,7 @@ function setup(){
 function draw(){
     background(255);
 
-    if(frameCount%10==0)    room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4) + ',' + posx.toFixed(4) + ',' + posy.toFixed(4) + ',' + posz.toFixed(4));
+    if(frameCount%10==0)    room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4));
     
     
     fill(255, 0, 0);
