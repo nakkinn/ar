@@ -33,33 +33,39 @@ let connect = false;
 let sensoractive = false;
 
 
-// //Peer作成
-// const peer = new Peer({
-//     key: 'cf1155ef-ab9f-41a3-bd4a-b99c30cc0663',
-//     debug: 2
-// });
+//Peer作成
+
+let peer
 
 
-// const button1 = document.getElementById('button1');
-// button1.addEventListener('click',()=>{
-//     peer.on('open',()=>{
-//         room=peer.joinRoom("may25",{
-//             mode:'sfu'
-//         });
-//         room.on('open',()=>{
+const button1 = document.getElementById('button1');
+
+button1.addEventListener('click',()=>{
+
+    peer = new Peer({
+        key: 'cf1155ef-ab9f-41a3-bd4a-b99c30cc0663',
+        debug: 2
+    });
     
-//         });
-//         room.on('peerJoin',peerId=>{
+    peer.on('open',()=>{
+        room=peer.joinRoom("may25",{
+            mode:'sfu'
+        });
+        room.on('open',()=>{
     
-//         });
-//         room.on('peerLeave',peerId=>{
+        });
+        room.on('peerJoin',peerId=>{
     
-//         });
-//         room.on('data',message=>{
+        });
+        room.on('peerLeave',peerId=>{
+    
+        });
+        room.on('data',message=>{
             
-//         });
-//     });
-// });
+        });
+    });
+
+});
 
 
 let alpha = 0, beta = 0, gamma = 0;
@@ -87,7 +93,7 @@ function draw(){
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.15', 100, 100);
+    text('ver1.16', 100, 100);
 
     text(alpha, 100, 700);
     text(beta, 100, 800);
