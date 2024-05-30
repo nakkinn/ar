@@ -28,6 +28,14 @@ peer.on('open',()=>{
 let posx=0, posy=0, posz=0;
 let vx=0, vy=0, vz=0;
 
+let alpha, beta, gamma;
+
+function handleOrientation(event) {
+  alpha = event.alpha;
+  beta = event.beta;
+  gamma = event.gamma;
+}
+
 
 function setup(){
     createCanvas(windowWidth, windowHeight);
@@ -36,23 +44,19 @@ function setup(){
 function draw(){
     background(255);
 
-
-    vx += accelerationX;
-    vy += accelerationY;
-    vz += accelerationZ;
-
-    posx += vx*deltaTime/1000;
-    posy += vy*deltaTime/1000;
-    posz += vz*deltaTime/1000;
-
     if(frameCount%10==0)    room.send(rotationX.toFixed(4) + ',' + rotationY.toFixed(4) + ',' + rotationZ.toFixed(4) + ',' + posx.toFixed(4) + ',' + posy.toFixed(4) + ',' + posz.toFixed(4));
     
     
     fill(255, 0, 0);
     textSize(40);
-    text('ver1.12', 100, 100);
+    text('ver1.13', 100, 100);
 
-    text(accelerationX, 100, 400);
-    text(accelerationY, 100, 500);
-    text(accelerationZ, 100, 600);
+    text(rotationX, 100, 400);
+    text(rotationY, 100, 500);
+    text(rotationZ, 100, 600);
+
+    text(alpha, 100, 700);
+    text(beta, 100, 800);
+    text(gamma, 100, 900);
+    
 }
