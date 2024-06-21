@@ -210,9 +210,6 @@ function handleTouchMove(event){
             mpy2 = my2;
 
         }
-    }else if(event.touches.length==1){
-        mousemovementX = event.touches[0].clientX/100;
-        mousemovementY = event.touches[0].clientY/100;
     }
 }
 
