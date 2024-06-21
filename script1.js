@@ -211,8 +211,10 @@ function handleTouchMove(event){
 
         }
     }else if(event.touches.length==1){
-        mousemovementX = event.touches[0].clientX;
-        mousemovementY = event.touches[0].clientY;
+        mousemovementX = event.touches[0].clientX - mpx1;
+        mousemovementY = event.touches[0].clientY - mpy1;
+        mpx1 = event.touches[0].clientX;
+        mpy1 = event.touches[0].clientY;
     }
 }
 
