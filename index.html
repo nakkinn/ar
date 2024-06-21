@@ -1,21 +1,33 @@
 <html lang="ja">
 
   <head>
+    <title>公開講座2024 ver1.0</title>
+    <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
-    <title>スマホ側</title>
+    <!-- <meta name="viewport" content="width=device-width"> -->
   </head>
-
 
   <body>
 
-    <button id="button1">ボタン１</button>
-    
-    <script src="https://cdn.webrtc.ecl.ntt.com/skyway-4.4.5.js"></script>
-    <script src="p5.js"></script>
-    <script src="script.js"></script>
-      
-    <button onclick="permission_request();">動作と方向へのアクセス許可</button>
 
+    <canvas id="canvas1"></canvas>
+    
+    <input type="range" id="slider1" min="0" max="20" value="10">
+
+    <div id="container1">
+      <label><input type="checkbox" id="check1" checked="true">曲面を描画</label>
+    </div>
+
+    <script src="p5.js"></script>
+    
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
+    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
+
+    <!--メインのプログラム-->
+    <script src="data.js"></script>
+    <script src='script1.js'></script>
 
   </body>
 
