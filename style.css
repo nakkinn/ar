@@ -21,7 +21,7 @@ cnavas{
     bottom:5%;
     left:35%;
     width:27%;
-    height:5%;
+    height:3%;
     transform:scale(3);
     margin:0px;
 }
@@ -31,7 +31,6 @@ cnavas{
     position:absolute;
     top:50px;
     right:160px;
-    background-color:#ffffff88;
     transform:scale(2.5);
 }
 

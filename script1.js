@@ -48,8 +48,8 @@ const renderer1 = new THREE.WebGLRenderer({
     canvas:canvas1,   //描画するキャンバスをID指定
     antialias: true
 });
-renderer1.setSize(window.innerWidth, window.innerHeight*0.7); //キャンバスサイズ
-renderer1.setClearColor(0xffffff);   //背景色
+renderer1.setSize(window.innerWidth, window.innerHeight*0.78); //キャンバスサイズ
+renderer1.setClearColor(0xeeeeee);   //背景色
 
 
 for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
@@ -65,8 +65,8 @@ camera1.position.set(0,0,25);  //カメラ初期位置
 
 //画面サイズが変わったとき
 window.addEventListener('resize',()=>{
-    renderer1.setSize(window.innerWidth, window.innerHeight*0.7);
-    camera1.aspect = window.innerWidth / (window.innerHeight*0.7);
+    renderer1.setSize(window.innerWidth, window.innerHeight*0.78);
+    camera1.aspect = window.innerWidth / (window.innerHeight*0.78);
     camera1.updateProjectionMatrix();
 });
 
