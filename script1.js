@@ -1,6 +1,6 @@
-let tubecolor1 = 0x57a9fa;  //tubeの色　uカーブ
-let tubecolor2 = 0xd0a9fa;  //tubeの色　vカーブ
-let surfacecolor = 0xeeeeee;    //曲面の色
+let tubecolor1 = 0xd18143;  //tubeの色　uカーブ
+let tubecolor2 = 0x47bf9b;  //tubeの色　vカーブ
+let surfacecolor = 0xe9fe95;    //曲面の色
 let surfacealpha = 0.7; //曲面の透明度
 let backgroundcolor = 0xeeeeee; //背景色
 
@@ -62,8 +62,8 @@ scene1.add(light1);
 //オブジェクト
 let path, geometry, mesh, meshgroup, index=10;
 
-const tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
-const tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
+let tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
+let tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
 
 meshgroup = new Array(curve_group.length);
 for(let i=0; i<meshgroup.length; i++)   meshgroup[i] = new THREE.Mesh();
@@ -229,6 +229,44 @@ check1.addEventListener('change',(event)=>{
         mesh_surface_group[i].visible = event.target.checked;
     }
 });
+
+
+
+const colorpicker1 = document.getElementById('colorpicker1');
+colorpicker1.addEventListener('input',(event)=>{
+    surfacecolor = event.target.value;
+    material_surface = new THREE.MeshPhongMaterial({color:surfacecolor, side:THREE.DoubleSide, transparent:true, opacity:surfacealpha});
+    for(let i=0; i<mesh_surface_group.length; i++)    mesh_surface_group[i].material = material_surface;
+});
+
+console.log(meshgroup[0]);
+for(let i=0; i<meshgroup.length; i++){
+    
+}
+
+const colorpicker2 = document.getElementById('colorpicker2');
+colorpicker2.addEventListener('input',(event)=>{
+    tubecolor1 = event.target.value;
+    tubematerial1 = new THREE.MeshLambertMaterial({ color: tubecolor1, side:THREE.DoubleSide});
+    for(let i=0; i<meshgroup.length; i++){
+        for(let j=0; j<meshgroup[i].children.length; j++)   if(j<=20){
+            meshgroup[i].children[j].material = tubematerial1;
+        }
+    }
+});
+
+const colorpicker3 = document.getElementById('colorpicker3');
+colorpicker3.addEventListener('input',(event)=>{
+    tubecolor2 = event.target.value;
+    tubematerial2 = new THREE.MeshLambertMaterial({ color: tubecolor2, side:THREE.DoubleSide});
+    for(let i=0; i<meshgroup.length; i++){
+        for(let j=0; j<meshgroup[i].children.length; j++)   if(j>20){
+            meshgroup[i].children[j].material = tubematerial2;
+        }
+    }
+});
+
+
 
 
 
