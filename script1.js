@@ -161,8 +161,8 @@ let mpx1=-1, mpy1=-1, mpx2=-1, mpy2=-1;
 let twofinger = false;
 
 //document.addEventListener('touchstart', handleTouchStart, false);
-document.addEventListener('touchmove', handleTouchMove, false);
-document.addEventListener('touchend', handleTouchEnd, false);
+canvas1.addEventListener('touchmove', handleTouchMove, false);
+canvas1.addEventListener('touchend', handleTouchEnd, false);
 
 function handleTouchStart(event){
     if(event.touchs.length==2){
@@ -210,6 +210,9 @@ function handleTouchMove(event){
             mpy2 = my2;
 
         }
+    }else if(event.touches.length==1){
+        mousemovementX = event.touches[0].clientX;
+        mousemovementY = event.touches[0].clientY;
     }
 }
 
