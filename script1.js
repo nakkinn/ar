@@ -60,7 +60,7 @@ for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
 
 // カメラ
 //const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
-const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/(canvas1.height*0.7), 0.1, 500);  //透視投影カメラ
+const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,25);  //カメラ初期位置
 
 //画面サイズが変わったとき
