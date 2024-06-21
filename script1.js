@@ -144,11 +144,11 @@ scene1.add(mesh_surface_group[index]);
 
 //マウスイベント
 let mouseIsPressed = false;
-document.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
-document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
+canvas1.addEventListener('pointerdown',()=>{mouseIsPressed = true;});
+canvas1.addEventListener('pointerup',()=>{mouseIsPressed = false;});
 
 let mousemovementX=0, mousemovementY=0;
-document.addEventListener('pointermove',(event)=>{
+canvas1.addEventListener('pointermove',(event)=>{
     mousemovementX = event.movementX;
     mousemovementY = event.movementY;
 });
@@ -210,6 +210,9 @@ function handleTouchMove(event){
             mpy2 = my2;
 
         }
+    }else if(event.touches.length==1){
+        mousemovementX = event.touches[0].clientX;
+        mousemovementY = event.touches[0].clientY;
     }
 }
 
