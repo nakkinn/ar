@@ -15,12 +15,12 @@ canvas1.addEventListener('contextmenu', (event) => {
 const slider1 = document.getElementById('slider1');
 slider1.style.touchAction = 'none';
 
-// slider1.addEventListener('pointerdown',()=>{
-//     twofinger = true;
-// });
-// slider1.addEventListener('pointerup',()=>{
-//     twofinger = false;
-// });
+slider1.addEventListener('pointerdown',()=>{
+    twofinger = true;
+});
+slider1.addEventListener('pointerup',()=>{
+    twofinger = false;
+});
 
 slider1.addEventListener('input',()=>{
     scene1.remove(meshgroup[index]);
@@ -48,7 +48,7 @@ const renderer1 = new THREE.WebGLRenderer({
     canvas:canvas1,   //描画するキャンバスをID指定
     antialias: true
 });
-renderer1.setSize(window.innerWidth, window.innerHeight*0.75); //キャンバスサイズ
+renderer1.setSize(window.innerWidth, window.innerHeight*0.7); //キャンバスサイズ
 renderer1.setClearColor(0xffffff);   //背景色
 
 
@@ -60,13 +60,13 @@ for(let i=0; i<spherecut100.length; i++)    if(i%2==0){
 
 // カメラ
 //const camera1 = new THREE.OrthographicCamera(-2, 2, 2, -2, 1, 10);   //直交投影カメラ
-const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/canvas1.height, 0.1, 500);  //透視投影カメラ
+const camera1 = new THREE.PerspectiveCamera(60, canvas1.width/(canvas1.height*0.7), 0.1, 500);  //透視投影カメラ
 camera1.position.set(0,0,25);  //カメラ初期位置
 
 //画面サイズが変わったとき
 window.addEventListener('resize',()=>{
-    renderer1.setSize(window.innerWidth, window.innerHeight);
-    camera1.aspect = window.innerWidth / window.innerHeight;
+    renderer1.setSize(window.innerWidth, window.innerHeight*0.7);
+    camera1.aspect = window.innerWidth / (window.innerHeight*0.7);
     camera1.updateProjectionMatrix();
 });
 
