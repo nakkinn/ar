@@ -1,34 +1,38 @@
+<!--キャンバスサイズ変更　実験用-->
+
+
 <html lang="ja">
 
   <head>
-    <title>4次元を経由したメビウスの帯</title>
-    <link rel="stylesheet" href="style.css">
-    <meta charset="UTF-8">
-
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
   </head>
+
 
   <body>
 
-    <input type="color" id="colorpicker1">
-    <input type="color" id="colorpicker2">
-    <input type="color" id="colorpicker3">
+    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
 
-    <canvas id="canvas1"></canvas>
+    <script>  
+      let canvas1 = document.getElementById('3d_graphic_canvas'); 
+      let size = Math.min(600, window.innerWidth);
+      canvas1.width = size * window.devicePixelRatio; 
+      canvas1.height = size * window.devicePixelRatio;
+      canvas1.style.width = size;
+      canvas1.style.height = size;
+    </script>
+
+    <div style="height:30px"></div>
+
+    <!--外部ライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>  
     
-    <input type="range" id="slider1" min="0" max="20" value="10">
+    <!--自作スクリプト-->
+    <script src='common_cgweb1.js'></script> <!--ver9-->
+    <script src='data1.js'></script>
+    <script src='custom_script1.js'></script>
 
-    <div id="container1">
-      <label><input type="checkbox" id="check1" checked="true">曲面を描画</label>
-    </div>
-
-    <!--three.jsライブラリ-->
-    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
-    <!--three.js追加アドオン　マウスドラッグによる視点操作-->
-    <script src="https://unpkg.com/three@0.131.3/examples/js/controls/OrbitControls.js"></script>
-
-    <!--メインのプログラム-->
-    <script src="data.js"></script>
-    <script src='script1.js'></script>
+    
 
   </body>
 
