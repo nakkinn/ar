@@ -12,11 +12,11 @@ addOrthographicCameraC(); //平行投影カメラ　第1引数：オプション
 
 
 //環境光ライト
-addAmbientLightC(0xffffff, 0.5);   //第1引数：光の色, 第2引数：光の強さ
+addAmbientLightC(0xffffff, 0.4);   //第1引数：光の色, 第2引数：光の強さ
 
 
 //指向性ライト
-addDirectionalLightC(0xffffff, 0.6, 1, 1, 1);   //第1引数：光の色, 第2引数：光の強さ, 第3,4,5引数：ライト位置(x,y,z), (x,y,z)から(0,0,0)に向かう方向にライトを当てる
+addDirectionalLightC(0xffffff, 0.7, 1, 1, 1);   //第1引数：光の色, 第2引数：光の強さ, 第3,4,5引数：ライト位置(x,y,z), (x,y,z)から(0,0,0)に向かう方向にライトを当てる
 addDirectionalLightC(0xffffff, 0.3, -1, -1, 1);
 
 
