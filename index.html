@@ -18,9 +18,9 @@
       let canvas1 = document.getElementById('3d_graphic_canvas'); 
       let size = Math.min(600, window.innerWidth);
       canvas1.width = size * window.devicePixelRatio; 
-      canvas1.height = size * window.devicePixelRatio * 0.8;
+      canvas1.height = size * window.devicePixelRatio * 0.85;
       canvas1.style.width = size;
-      canvas1.style.height = size * 0.8;
+      canvas1.style.height = size * 0.85;
     </script>
 
     <div style="height:10px"></div>
@@ -37,11 +37,13 @@
     <input type="checkbox" id="check4" checked>
     <label for="check4">スライス</label>
 
+    <div style="height:10px"></div>
+
     <!--スライダーの追加-->
     <script>
-      const slider1 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:40,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
-      const slider2 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:40,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
-      const slider3 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:40,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
+      const slider1 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
+      const slider2 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
+      const slider3 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
     </script>
 
 
