@@ -1,0 +1,37 @@
+<html lang="ja"></html>
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
+  </head>
+
+  <body>
+
+    <!--自作スライダーライブラリ　スライダーを追加する前に記述する-->
+    <script src="myslider.js"></script>
+
+    <h3>z = x^2 - y^2</h3>
+
+    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
+
+    <script>  
+      let canvas1 = document.getElementById('3d_graphic_canvas'); 
+      let size = Math.min(600, window.innerWidth);
+      canvas1.width = size * window.devicePixelRatio; 
+      canvas1.height = size * window.devicePixelRatio;
+      canvas1.style.width = size;
+      canvas1.style.height = size;
+    </script>
+
+
+    <!--three.jsライブラリ-->
+    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
+
+    <!--メインソース-->
+    <script src="common_cgweb1.js"></script>
+    <script src='script2.js'></script> 
+
+
+  </body>
+
+</html>

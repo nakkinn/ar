@@ -1,38 +1,28 @@
-<!--キャンバスサイズ変更　実験用-->
-
-
-<html lang="ja">
+<html lang="ja"></html>
 
   <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">  
   </head>
 
-
   <body>
 
-    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
+    <h3>2変数関数　10/3作成</h3>
 
-    <script>  
-      let canvas1 = document.getElementById('3d_graphic_canvas'); 
-      let size = Math.min(600, window.innerWidth);
-      canvas1.width = size * window.devicePixelRatio; 
-      canvas1.height = size * window.devicePixelRatio;
-      canvas1.style.width = size;
-      canvas1.style.height = size;
-    </script>
+    <a href="index1.html">z = x^2 + y^2</a>
 
-    <div style="height:30px"></div>
+    <div style="height:20px"></div>
 
-    <!--外部ライブラリ-->
-    <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>  
-    
-    <!--自作スクリプト-->
-    <script src='common_cgweb1.js'></script> <!--ver9-->
-    <script src='data1.js'></script>
-    <script src='custom_script1.js'></script>
+    <a href="index2.html">z = x^2 - y^2</a>
 
-    
+    <div style="height:20px"></div>
+
+    <a href="index3.html">z = sin(x) cos(y)</a>
+
+    <div style="height:20px"></div>
+
+    <a href="index4.html">z = 2 x^3 / 3 + 2 t x - y^2</a>
+
 
   </body>
 

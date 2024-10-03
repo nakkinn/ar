@@ -1,4 +1,4 @@
-//ver10
+//ver11
 
 //このjsファイルは基本的に編集しない
 
@@ -6,6 +6,7 @@ const PI = Math.PI;
 function sin(a1){return Math.sin(a1)};
 function cos(a1){return Math.cos(a1)};
 function tan(a1){return Math.tan(a1)};
+function sqrt(a1){return Math.sqrt(a1)};
 
 
 //#############################################################
@@ -70,6 +71,9 @@ let twofinger = false;  //タッチパッドで2本指操作しているときtr
 let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
 let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標　1フレーム前タッチされていなければ-1とする
 let mousemovementX=0, mousemovementY=0; //マウス移動量
+
+let rotationX=0, rotationY=0, rotationZ=0;
+let dummymesh = new THREE.Mesh();
 
 
 let angularvelocity1 = new THREE.Vector3(0, 0, 0);  //オブジェクトの回転軸　大きさが回転速度に比例する
@@ -403,11 +407,15 @@ function animateC(){
     mousemovementY = 0;
 
     scene1.traverse((object)=>{
-        if(object.isMesh){
+        if(object.isMesh || object.isLine){
             object.rotateOnWorldAxis(axis, rad);
         }
     });
 
+    dummymesh.rotateOnWorldAxis(axis, rad);
+    rotationX = dummymesh.rotation.x;
+    rotationY = dummymesh.rotation.y;
+    rotationZ = dummymesh.rotation.z;
 
 
     renderer1.render(scene1, camera1);  //レンダリング
@@ -418,14 +426,16 @@ function animateC(){
 function addMeshC(vtsa, indexa, optiona){
     
     const defaultoption = {color:0xffffff, scale:1, rotation:[0,0,0], opacity:1, visible:true, flatshade:false, wireframe:false, spherecutradius:-1, side:0,
-        envMap:null, metalness:0, roughness:1
+        envMap:null, metalness:0, roughness:1, position:[0,0,0]
     }; //デフォルトのオプション
     optiona = {...defaultoption, ...optiona};   //デフォルトオプションと引数で渡されたオプションのマージ（引数のオプションを優先）
 
     let geometry1 = new THREE.BufferGeometry(); //ジオメトリの生成
 
     if(getvalueC(optiona.spherecutradius)!=-1){ //球面カットを行う場合
-        let vts_original = eval(vtsa).flat();
+        let vts_tmp = vtsa;
+        if(typeof vts_tmp == "string")    vts_tmp = eval(vts_tmp);
+        let vts_original = eval(vts_tmp).flat();
         let tmp = spherecutC(vts_original, tripolyC(indexa).flat(), getvalueC(optiona.spherecutradius));   //球面カット後のgraphic complexを算出
         geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(vts_original.length * 2), 3));    //頂点数の2倍のサイズの配列を仮に頂点リストとして設定（後に頂点数が増えたときのために使用メモリに余裕を持たせる）
         geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(tmp[1]), 1));  //ポリゴンインデックスリストを設定
@@ -434,8 +444,10 @@ function addMeshC(vtsa, indexa, optiona){
         geometry1.computeVertexNormals();   //頂点の法線ベクトル設定
         
     }else{  //球面カットを行わない場合
-        geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(eval(vtsa).flat()), 3));  //頂点座標の設定
-        geometry1.setIndex(new THREE.BufferAttribute(new Uint16Array(tripolyC(indexa).flat()),1)); //ポリゴンインデックスの設定
+        let vts_tmp = vtsa;
+        if(typeof vts_tmp == "string")    vts_tmp = eval(vts_tmp);
+        geometry1.setAttribute('position', new THREE.BufferAttribute(new Float32Array(eval(vts_tmp).flat()), 3));  //頂点座標の設定
+        geometry1.setIndex(new THREE.BufferAttribute(new Uint32Array(tripolyC(indexa).flat()),1)); //ポリゴンインデックスの設定
         geometry1.computeVertexNormals();   //頂点の法線ベクトル設定
     }
 
@@ -444,7 +456,7 @@ function addMeshC(vtsa, indexa, optiona){
         flatShading:getvalueC(optiona.flatshade),   //フラットシェード
         color: getvalueC(optiona.color),    //色
         side:THREE.DoubleSide,
-        wireframe:optiona.wireframe,    //ワイヤーフレーム
+        wireframe:getvalueC(optiona.wireframe),    //ワイヤーフレーム
         transparent:true,   //透過モード
         opacity:getvalueC(optiona.opacity),  //透明度
         metalness:getvalueC(optiona.metalness),
@@ -458,17 +470,22 @@ function addMeshC(vtsa, indexa, optiona){
     let mesh1 = new THREE.Mesh(geometry1, material1);   //メッシュ（ジオメトリ＋マテリアル）の生成
     mesh1.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
     mesh1.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
+    mesh1.position.set(optiona.position[0], optiona.position[1], optiona.position[2]);
     mesh1.visible = getvalueC(optiona.visible);
 
     //メッシュに頂点リスト・ポリゴンインデックスリスト・オプション情報を付与（メッシュを後で更新するのに使用）
     mesh1.vtsstring = vtsa;
+    if(typeof vtsa != "string") mesh1.vtsstring = JSON.stringify(vtsa);    
     mesh1.originalindex = tripolyC(indexa);
     mesh1.originalOption = optiona;
     mesh1.className = 'meshC';
+
+    //if(optiona.class!=undefined)    mesh1.class1 = optiona.class;
     
     scene1.add(mesh1);  //シーンにメッシュを追加する
 
 
+    return mesh1;
 }
 
 
@@ -476,24 +493,28 @@ function addTubeC(vtsa, indexa, radius, optiona){
 
 
     const defaultoption = {color:0xffffff, scale:1, rotation:[0,0,0], opacity:1, visible:true, flatshade:false, wireframe:false, spherecutradius:-1, side:0, ball:false, radialsegment:8,
-        metalness:0, roughness:1
+        metalness:0, roughness:1, position:[0,0,0]
     }; //デフォルトのオプション
     optiona = {...defaultoption, ...optiona};   //デフォルトオプションと引数で渡されたオプションのマージ（引数のオプションを優先）
 
 
     let vts_str = vtsa;
+    if(typeof vts_str!="string"){
+        vts_str = JSON.stringify(vtsa);
+    }
     vts_str = vts_str.split("[").join("");
     vts_str = vts_str.split("]").join("");
     vts_str = vts_str.split(',');
 
 
-    let vts1 = eval(vtsa);
+
+    let vts_tmp = eval(vtsa);
     let vts2 = [];
 
     for(let i=0; i<indexa.length; i++){
         let tmp = [];
         for(let j=0; j<indexa[i].length; j++){
-            tmp.push(vts1[indexa[i][j]]);
+            tmp.push(vts_tmp[indexa[i][j]]);
         }
         vts2.push(tmp);
     }
@@ -508,6 +529,8 @@ function addTubeC(vtsa, indexa, radius, optiona){
         metalness:getvalueC(optiona.metalness),
         roughness:getvalueC(optiona.roughness)
     });
+
+    let mesh1;
 
     for(let i=0; i<vts2.length; i++){
 
@@ -528,10 +551,11 @@ function addTubeC(vtsa, indexa, radius, optiona){
             console.log(tmp[0].length)
         }
 
-        let mesh1 = new THREE.Mesh(geometry1, material1);
+        mesh1 = new THREE.Mesh(geometry1, material1);
 
         mesh1.scale.set(optiona.scale, optiona.scale, optiona.scale);   //スケールの設定
         mesh1.rotation.set(optiona.rotation[0], optiona.rotation[1], optiona.rotation[2]);  //姿勢の設定
+        mesh1.position.set(optiona.position[0], optiona.position[1], optiona.position[2]);
         mesh1.visible = getvalueC(optiona.visible);
 
         let x1, y1, z1, x2, y2, z2;
@@ -548,6 +572,9 @@ function addTubeC(vtsa, indexa, radius, optiona){
         }
         vtsstring_tmp = vtsstring_tmp.slice(0,-1) + "]";
         mesh1.vtsstring = vtsstring_tmp;
+        if(typeof mesh1.vtsstring!="string"){
+            mesh1.vtsstring = JSON.stringify(mesh1.vtsstring);
+        }
         mesh1.radius = radius;
         mesh1.originalOption = optiona;
         mesh1.className = "tubeC";
@@ -592,6 +619,7 @@ function addTubeC(vtsa, indexa, radius, optiona){
 
     }
 
+    return mesh1;
 
 }
 
@@ -652,7 +680,7 @@ function updateObjectC(){
             object.material.flatShading = getvalueC(object.originalOption.flatshade);   //フラットシェードの設定
             object.material.roughness = getvalueC(object.originalOption.roughness);
             object.material.needsUpdate = true;
-
+            object.material.wireframe = getvalueC(object.originalOption.wireframe);
             object.visible = getvalueC(object.originalOption.visible);
         }
 
@@ -963,8 +991,258 @@ function makeTubeC(plist, radius, n, option=false){
 
 //頂点リストを入力すると適切なスケールを返す
 function adjustScaleC(arg){
-    let vts1 = eval(arg).flat();
-    vts1 = vts1.map(value=>Math.abs(value));
-    let maxd = Math.max(...vts1);
+    let vts_tmp = eval(arg).flat();
+    vts_tmp = vts_tmp.map(value=>Math.abs(value));
+    let maxd = Math.max(...vts_tmp);
     return 2.8 / maxd;
+}
+
+
+//媒介変数表示で表される曲面の頂点リスト
+function parametric_vtsC(func, urange, vrange, detailu, detailv){
+
+    let umin = urange[0];
+    let umax = urange[1];
+    let vmin = vrange[0];
+    let vmax = vrange[1];
+
+    let result = [];
+
+    for(let i=0; i<=detailu; i++)   for(let j=0; j<=detailv; j++){
+        let u = umin + (umax - umin) / detailu * i;
+        let v = vmin + (vmax - vmin) / detailv * j;
+        result.push(func(u,v));
+    }
+
+    return result;
+}
+
+
+//媒介変数表示で表される曲面のポリゴンインデックスリスト
+function parametric_indexC(detailu, detailv){
+    let result = [];
+    for(let i=0; i<detailu; i++)    for(let j=0; j<detailv; j++){
+        result.push([i*(detailv+1)+j, i*(detailv+1)+(j+1), (i+1)*(detailv+1)+j], [(i+1)*(detailv+1)+(j+1), (i+1)*(detailv+1)+j, i*(detailv+1)+(j+1)]);
+    }
+    return result;
+}
+
+
+
+
+function tube_vts1C(plist, radius, n){
+
+    let vts = [];
+
+    let ring = new Array(n);
+
+    let x1 = plist[0][0];
+    let y1 = plist[0][1];
+    let z1 = plist[0][2];
+    let x2 = plist[1][0];
+    let y2 = plist[1][1];
+    let z2 = plist[1][2];
+
+    let vr = random_vector1;
+    let v1 = new THREE.Vector3(x2-x1, y2-y1, z2-z1);
+    let v2 = v1.clone().cross(vr).normalize().multiplyScalar(radius);
+
+    for(let i=0; i<n; i++){
+        let v3 = v2.clone().applyAxisAngle(v1.clone().normalize(), 2*Math.PI/n*i);
+        ring[i] = new THREE.Vector3(v3.x, v3.y, v3.z);
+    }
+
+
+    for(let i=0; i<ring.length; i++){
+        vts.push([ring[i].x+x1, ring[i].y+y1, ring[i].z+z1]);
+    }
+
+
+    for(let k=0; k<plist.length-2; k++){
+
+        let x1 = plist[k][0];
+        let y1 = plist[k][1];
+        let z1 = plist[k][2];
+        let x2 = plist[k+1][0];
+        let y2 = plist[k+1][1];
+        let z2 = plist[k+1][2];
+        let x3 = plist[k+2][0];
+        let y3 = plist[k+2][1];
+        let z3 = plist[k+2][2];
+
+
+        let v12 = new THREE.Vector3(x1-x2, y1-y2, z1-z2);
+        let v32 = new THREE.Vector3(x3-x2, y3-y2, z3-z2);
+        let vc = v12.clone().cross(v32).normalize();
+
+        let angle = v12.angleTo(v32);
+        if(angle>Math.PI/2)   angle = Math.PI - angle;
+        
+        for(let i=0; i<ring.length; i++){
+            ring[i].applyAxisAngle(vc, -angle/2);
+            vts.push([ring[i].x+x2, ring[i].y+y2, ring[i].z+z2]);
+            ring[i].applyAxisAngle(vc, -angle/2);
+        }
+    }
+
+    for(let i=0; i<ring.length; i++){
+        vts.push([ring[i].x+plist[plist.length-1][0], ring[i].y+plist[plist.length-1][1], ring[i].z+plist[plist.length-1][2]]);
+    }
+
+    return vts;
+
+
+    
+
+}
+
+
+function tube1_vtsC(func, range, detail, thick, n){
+    let tmp = [];
+    for(let i=0; i<=detail; i++){
+        let t = range[0] + (range[1]-range[0]) / detail * i;
+        tmp.push(func(t));
+    }
+    return tube_vts1C(tmp, thick, n);
+}
+
+
+//u曲線の帯の集合の頂点リストを生成する
+function tubeU_vtsC(func, listv, urange, detail, thick, n){
+
+    let result = [];
+
+    for(let k=0; k<listv.length; k++){
+
+        let tmp = [];
+
+        for(let i=0; i<=detail; i++){
+
+            let u = urange[0] + (urange[1] - urange[0]) / detail * i;
+            let v = listv[k];
+
+            tmp.push( func(u,v) );
+            
+        }
+
+        result = result.concat( tube_vts1C(tmp, thick, n) );
+    }
+
+    return result;
+}
+
+
+
+function tubeV_vtsC(func, listu, vrange, detail, thick, n){
+
+    let result = [];
+
+    for(let k=0; k<listu.length; k++){
+
+        let tmp = [];
+
+        for(let i=0; i<=detail; i++){
+
+            let v = vrange[0] + (vrange[1] - vrange[0]) / detail * i;
+            let u = listu[k];
+
+            tmp.push( func(u,v) );
+            
+        }
+
+        result = result.concat( tube_vts1C(tmp, thick, n) );
+    }
+
+    return result;
+}
+
+
+
+function tube_indexC(detail, n, m=1){
+
+    let index = [];
+    for(let k=0; k<m; k++)  for(let i=0; i<detail; i++)  for(let j=0; j<n; j++){
+        index.push([(detail+1)*n*k+n*i+j, (detail+1)*n*k+n*i+(j+1)%n, (detail+1)*n*k+n*(i+1)+j], [(detail+1)*n*k+n*(i+1)+(j+1)%n, (detail+1)*n*k+n*(i+1)+j, (detail+1)*n*k+n*i+(j+1)%n]);
+    }
+    return index;
+}
+
+
+
+//u曲線の帯の集合の頂点リストを生成する
+function ribbonU_vtsC(func, listv, urange, detail, width, osidasi){
+
+    let result = [];
+
+    for(let k=0; k<listv.length; k++){
+
+        for(let i=0; i<=detail; i++){
+
+            let u = urange[0] + (urange[1] - urange[0]) / detail * i;
+            let v = listv[k];
+
+            let x1 = func(u,v);
+            let x2 = func(u+0.01, v);
+            let x3 = func(u, v+0.01);
+
+            let v1 = new THREE.Vector3(x2[0]-x1[0], x2[1]-x1[1], x2[2]-x1[2]).normalize();     //接線
+            let v2 = new THREE.Vector3(x3[0]-x1[0], x3[1]-x1[1], x3[2]-x1[2]).normalize();
+
+            let v3 = v1.clone().cross(v2);  //法線
+            let v4 = v1.clone().cross(v3);
+            
+            result.push([x1[0]+v4.x*width+v3.x*osidasi, x1[1]+v4.y*width+v3.y*osidasi, x1[2]+v4.z*width+v3.z*osidasi]);
+            result.push([x1[0]-v4.x*width+v3.x*osidasi, x1[1]-v4.y*width+v3.y*osidasi, x1[2]-v4.z*width+v3.z*osidasi]);
+
+        }
+
+    }
+
+    return result;
+}
+
+
+//v曲線の帯の集合の頂点リストを生成する
+function ribbonV_vtsC(func, listu, vrange, detail, width, osidasi){
+
+    let result = [];
+
+    for(let k=0; k<listu.length; k++){
+
+        for(let i=0; i<=detail; i++){
+
+            let v = vrange[0] + (vrange[1] - vrange[0]) / detail * i;
+            let u= listu[k];
+
+            let x1 = func(u, v);
+            let x2 = func(u, v-0.01);
+            let x3 = func(u+0.01, v);
+
+            let v1 = new THREE.Vector3(x2[0]-x1[0], x2[1]-x1[1], x2[2]-x1[2]).normalize();     //接線
+            let v2 = new THREE.Vector3(x3[0]-x1[0], x3[1]-x1[1], x3[2]-x1[2]).normalize();
+
+            let v3 = v1.clone().cross(v2);  //法線
+            let v4 = v1.clone().cross(v3);
+            
+            result.push([x1[0]+v4.x*width+v3.x*osidasi, x1[1]+v4.y*width+v3.y*osidasi, x1[2]+v4.z*width+v3.z*osidasi]);
+            result.push([x1[0]-v4.x*width+v3.x*osidasi, x1[1]-v4.y*width+v3.y*osidasi, x1[2]-v4.z*width+v3.z*osidasi]);
+
+        }
+
+    }
+
+    return result;
+}
+
+
+//帯の集合のポリゴンインデックスリストを生成する
+function ribbon_indexC(detail, m=1){
+    let result = [];
+    for(let k=0; k<m; k++){
+        let d1 = 2 * (detail+1) * k;
+        for(let i=0; i<detail; i++){
+            result.push([i*2+d1, i*2+1+d1, (i+1)*2+d1], [(i+1)*2+1+d1, (i+1)*2+d1, i*2+1+d1]);
+        }
+    }
+    return result;
 }
