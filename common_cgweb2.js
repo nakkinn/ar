@@ -23,8 +23,8 @@ class SceneC extends THREE.Scene{
         if(active_index>=0){
             active_canvas.removeEventListener("pointerdown", press_updateC);
             active_canvas.removeEventListener("pointermove", mousemovment_updateC);
-            active_canvas.removeEventListener('touchmove', handleTouchMoveC, false); //タッチデバイスをなぞったときhandleTouchMoveを発火
-            active_canvas.removeEventListener('touchend', handleTouchEndC, false);   //タッチデバイスから指を離したときhandleTouchEndを発火
+            active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+            active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
         }
 
         active_index = scene_group.length - 1;
@@ -37,8 +37,8 @@ class SceneC extends THREE.Scene{
         active_canvas.addEventListener('pointermove',(event)=>{
             mousemovment_updateC(event)
         });
-        active_canvas.addEventListener('touchmove', handleTouchMoveC, false); //タッチデバイスをなぞったときhandleTouchMoveを発火
-        active_canvas.addEventListener('touchend', handleTouchEndC, false);   //タッチデバイスから指を離したときhandleTouchEndを発火
+        active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+        active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
 
         //カメラのアスペクト比の設定
@@ -103,8 +103,8 @@ document.querySelectorAll("canvas").forEach( canvas => {
 
                 active_canvas.removeEventListener("pointerdown", press_updateC);
                 active_canvas.removeEventListener("pointermove", mousemovment_updateC);
-                active_canvas.removeEventListener('touchmove', handleTouchMoveC, false); //タッチデバイスをなぞったときhandleTouchMoveを発火
-                active_canvas.removeEventListener('touchend', handleTouchEndC, false);   //タッチデバイスから指を離したときhandleTouchEndを発火
+                active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+                active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
 
                 active_index = i;
@@ -122,8 +122,8 @@ document.querySelectorAll("canvas").forEach( canvas => {
                 active_canvas.addEventListener('pointermove',(event)=>{
                     mousemovment_updateC(event)
                 });
-                active_canvas.addEventListener('touchmove', handleTouchMoveC, false); //タッチデバイスをなぞったときhandleTouchMoveを発火
-                active_canvas.addEventListener('touchend', handleTouchEndC, false);   //タッチデバイスから指を離したときhandleTouchEndを発火
+                active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+                active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
                 break;
             }
