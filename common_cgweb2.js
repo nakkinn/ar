@@ -308,6 +308,43 @@ document.addEventListener('mousemove',(event)=>{
 
 
 
+
+
+//#############################################################
+//アクションの禁止
+//#############################################################
+
+
+//スライダー操作時、画面スクロールが起きないようにする
+document.querySelectorAll('input[type="range"]').forEach(function(input) {  
+    input.style.touchAction = 'none';
+});
+
+
+//スマホで要素を長押しした際に、右クリックメニューが出ないようにする
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('html, body').forEach((element) => {
+        element.style.userSelect = 'none';
+        element.style.webkitUserSelect = 'none';
+        element.style.mozUserSelect = 'none';
+    });
+});
+
+
+//キャンバスをタッチ時スクロールや拡大縮小が起きないようにする
+document.getElementById('3d_graphic_canvas').style.touchAction = 'none';    
+
+
+//スマホ操作時、左端からスワイプした際ブラウザバッグしないようにする・iphoneで長押し時拡大鏡が出ないようにする
+document.getElementById('3d_graphic_canvas').addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    
+
+
+
+
+
+
+
+
 function createPerspectiveCameraC(optiona){
     const defaultoption = {fov:60, near:0.01, far:500, pos:[0, -10, 0], up:[0, 0, 1], zoom:1, lookat:[0,0,0], width:400, height:400};
     optiona = {...defaultoption, ...optiona};

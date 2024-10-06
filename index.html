@@ -18,30 +18,31 @@
     <canvas id="canvas1" style="margin-left:-8px"></canvas> 
     <script>  
       let canvas1 = document.getElementById('canvas1'); 
-      canvas1.width = 400 * window.devicePixelRatio; 
-      canvas1.height = 400 * window.devicePixelRatio;
-      canvas1.style.width = 400;
-      canvas1.style.height = 400;
+      let size = Math.min(400, window.innerWidth * 0.9);
+      canvas1.width = size * window.devicePixelRatio; 
+      canvas1.height = size * window.devicePixelRatio;
+      canvas1.style.width = size;
+      canvas1.style.height = size;
     </script>
 
     <p>キャンバス２</p>
     <canvas id="canvas2" style="margin-left:-8px"></canvas> 
     <script>  
       let canvas2 = document.getElementById('canvas2'); 
-      canvas2.width = 400 * window.devicePixelRatio; 
-      canvas2.height = 400 * window.devicePixelRatio;
-      canvas2.style.width = 400;
-      canvas2.style.height = 400;
+      canvas2.width = size * window.devicePixelRatio; 
+      canvas2.height = size * window.devicePixelRatio;
+      canvas2.style.width = size;
+      canvas2.style.height = size;
     </script>
 
     <p>キャンバス３</p>
     <canvas id="canvas3" style="margin-left:-8px"></canvas> 
     <script>  
       let canvas3 = document.getElementById('canvas3'); 
-      canvas3.width = 400 * window.devicePixelRatio; 
-      canvas3.height = 400 * window.devicePixelRatio;
-      canvas3.style.width = 400;
-      canvas3.style.height = 400;
+      canvas3.width = size * window.devicePixelRatio; 
+      canvas3.height = size * window.devicePixelRatio;
+      canvas3.style.width = size;
+      canvas3.style.height = size;
     </script>
 
 
