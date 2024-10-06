@@ -196,9 +196,9 @@ function handleTouchMoveC(event){
             d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
             d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
 
-            camera1.zoom += ( d2 / d1 - 1) * 1; //最後の定数を大きくすると変化が大きくなる
+            active_camera.zoom += ( d2 / d1 - 1) * 1; //最後の定数を大きくすると変化が大きくなる
             
-            camera1.updateProjectionMatrix();
+            active_camera.updateProjectionMatrix();
 
             pmouseX1 = mx1;
             pmouseY1 = my1;
@@ -486,8 +486,8 @@ function tripolyC(list){
 function animateC(){
     requestAnimationFrame(animateC);
 
-    let v1 = camera1.getWorldDirection(new THREE.Vector3()).normalize();
-    let v2 = v1.clone().cross(camera1.up.clone());
+    let v1 = active_camera.getWorldDirection(new THREE.Vector3()).normalize();
+    let v2 = v1.clone().cross(active_camera.up.clone());
     let v3 = v2.applyAxisAngle( v1, Math.atan2(mousemovementY,mousemovementX) - PI/2).normalize();
     v3.multiplyScalar( sqrt(mousemovementX**2 + mousemovementY**2) * 1);
 
