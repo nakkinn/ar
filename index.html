@@ -7,43 +7,48 @@
 
   <body>
 
-    <!--自作スライダーライブラリ　スライダーを追加する前に記述する-->
+
     <script src="myslider.js"></script>
 
-    <h3>z = 2 x^3 / 3 + 2 t x - y^2</h3>
 
-    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
+    <h3>複数キャンバス</h3>
 
+
+    <p>キャンバス１</p>
+    <canvas id="canvas1" style="margin-left:-8px"></canvas> 
     <script>  
-      let canvas1 = document.getElementById('3d_graphic_canvas'); 
-      let size = Math.min(600, window.innerWidth);
-      canvas1.width = size * window.devicePixelRatio; 
-      canvas1.height = size * window.devicePixelRatio * 0.85;
-      canvas1.style.width = size;
-      canvas1.style.height = size * 0.85;
+      let canvas1 = document.getElementById('canvas1'); 
+      canvas1.width = 400 * window.devicePixelRatio; 
+      canvas1.height = 400 * window.devicePixelRatio;
+      canvas1.style.width = 400;
+      canvas1.style.height = 400;
     </script>
 
-    <div style="height:10px"></div>
+    <p>キャンバス２</p>
+    <canvas id="canvas2" style="margin-left:-8px"></canvas> 
+    <script>  
+      let canvas2 = document.getElementById('canvas2'); 
+      canvas2.width = 400 * window.devicePixelRatio; 
+      canvas2.height = 400 * window.devicePixelRatio;
+      canvas2.style.width = 400;
+      canvas2.style.height = 400;
+    </script>
 
-    <input type="checkbox" id="check1">
-    <label for="check1">メッシュ</label>
+    <p>キャンバス３</p>
+    <canvas id="canvas3" style="margin-left:-8px"></canvas> 
+    <script>  
+      let canvas3 = document.getElementById('canvas3'); 
+      canvas3.width = 400 * window.devicePixelRatio; 
+      canvas3.height = 400 * window.devicePixelRatio;
+      canvas3.style.width = 400;
+      canvas3.style.height = 400;
+    </script>
 
-    <input type="checkbox" id="check2" checked>
-    <label for="check2">チューブ</label>
-
-    <input type="checkbox" id="check3" checked>
-    <label for="check3">柱</label>
-
-    <input type="checkbox" id="check4" checked>
-    <label for="check4">スライス</label>
-
-    <div style="height:10px"></div>
 
     <!--スライダーの追加-->
     <script>
-      const slider1 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0})
-      const slider2 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
-      const slider3 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.85, window.innerWidth*0.85),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
+        let slider1 = {};
+        slider1 = new Slider1d({width:400,bar_width:360,height:60,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
     </script>
 
 
@@ -51,8 +56,8 @@
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
 
     <!--メインソース-->
-    <script src="common_cgweb1.js"></script>
-    <script src='script4_2.js'></script> 
+    <script src="common_cgweb2.js"></script> 
+    <script src='script1.js'></script> 
 
 
   </body>

@@ -1,48 +1,118 @@
-//キャンバスの背景色
-setBackgroundColorC(0xeeeeee);   
+//正二十面体頂点リスト
+let ico_vts = [[2., 3.23607, 0.], [2., -3.23607, 0.], [-2., -3.23607, 0.], [-2., 3.23607, 0.], [0., 2., 3.23607], [0., 2., -3.23607], [0., -2., -3.23607], [0., -2., 3.23607], [3.23607, 0., 2.], [-3.23607, 0., 2.], [-3.23607, 0., -2.], [3.23607, 0., -2.]];
+//正二十面体ポリゴンインデックスリスト
+let ico_index = [[0,3,4],[0,3,5],[0,4,8],[0,5,11],[0,8,11],[1,2,6],[1,2,7],[1,6,11],[1,7,8],[1,8,11],[2,6,10],[2,7,9],[2,9,10],[3,4,9],[3,5,10],[3,9,10],[4,7,8],[4,7,9],[5,6,10],[5,6,11]];
 
 
-// カメラ（どちらかは必須）
-addPerspectiveCameraC({fov:40});    //透視投影カメラ　第1引数：オプション（省略可）
-//addOrthographicCameraC(); //平行投影カメラ　第1引数：オプション（省略可）
 
 
-//環境光ライト
-addAmbientLightC(0xffffff, 0.3);   //第1引数：光の色, 第2引数：光の強さ
+//レンダラー
+const renderer1 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas1'),
+    antialias: true
+});
+
+renderer1.setClearColor(0xeeeeee);  //背景色
+
+const renderer2 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas2'),
+    antialias: true
+});
+
+renderer2.setClearColor(0xeeeeee);  //背景色
+
+const renderer3 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas3'),
+    antialias: true
+});
+
+renderer3.setClearColor(0xeeeeee);  //背景色
+
+//カメラ
+const camera1 = createPerspectiveCameraC();
+const camera2 = createPerspectiveCameraC();
+const camera3 = createPerspectiveCameraC();
 
 
-//指向性ライト
-addDirectionalLightC(0xffffff, 0.8, 1, 1, 1);   //第1引数：光の色, 第2引数：光の強さ, 第3,4,5引数：ライト位置(x,y,z), (x,y,z)から(0,0,0)に向かう方向にライトを当てる
-addDirectionalLightC(0xffffff, 0.2, -1, -1, 1);
+//シーン
+const scene1 = new SceneC(renderer1, camera1);
+const scene2 = new SceneC(renderer2, camera2);
+const scene3 = new SceneC(renderer3, camera3);
 
 
-//レンダリング（必須）
+//ライト
+let lighta1 = new THREE.AmbientLight(0xffffff, 0.3)
+let lightd1 = new THREE.DirectionalLight(0xffffff, 0.6);
+lightd1.position.set( 0, -1, 1 )
+
+
+scene1.add( lighta1.clone() );
+scene1.add( lightd1.clone() );
+scene2.add( lighta1.clone() );
+scene2.add( lightd1.clone() );
+scene3.add( lighta1.clone() );
+scene3.add( lightd1.clone() );
+
+
 animateC();
 
 
-//スライダーの値を使用した関数
-const func1C = function(u,v){
+//オブジェクト
+let mesh1 = createMeshC(ico_vts, ico_index, {color:0xff5500, scale:1, flatshade:true});
+
+
+//u,vを入力とし、(x,y,z)を返す関数
+const func1 = function(u,v){
     let x, y, z;
     x = u;
-    y = u*u + v*v - 1;
-    z = v;
+    y = v;
+    z = u*u -v*v;
     return [x,y,z];
 }
 
 
-//頂点リストの生成
-let vts1 = parametric_vtsC(func1C, [-1,1], [-1,1], 50, 50);  
+let parameter1 = 0.5;
+const mobius_func = function(u,v){
+    let x, y, z;
 
-//ポリゴンインデックスリストの生成
-let index1 = parametric_indexC(50, 50);
+    let a1 = 5;
+    let a2 = 0.1 + 3*parameter1; //slider1はhtmlファイルで定義している　slider1.valueは0以上1以下
 
-//グラフィックの追加
-addMeshC(vts1, index1, {color:0xff6600, scale:2});
+    x = cos(u) * (a1 + a2 * v * cos(u/2));
+    y = sin(u) * (a1 + a2 * v * cos(u/2));
+    z = a2 * v * sin(u/2);
+
+    return [x,y,z];
+}
+
+
+//円柱の頂点リスト
+let surf_vts = parametric_vtsC(func1, [-1,1], [-1,1], 40, 40);
+//円柱のポリゴンインデックスリスト
+let surf_index = parametric_indexC(40, 40);
+let mesh2 = createMeshC(surf_vts, surf_index, {color:0x0066ff, scale:3});
+
+
+let mobius_vts = parametric_vtsC(mobius_func, [0,2*PI], [-1,1], 60, 5);
+let mobius_index = parametric_indexC(60, 5);
+let mesh3 = createMeshC("mobius_vts", mobius_index, {color:0x00aa66, scale:0.7});
+
+
+slider1.func = () => {
+    parameter1 = slider1.value;
+    mobius_vts = parametric_vtsC(mobius_func, [0,2*PI], [-1,1], 60, 5);
+    updateObjectC(scene3);
+};
 
 
 
-/*
-addMeshC 第1引数：頂点リスト名（""で囲う,スライダーを使わない場合は""を付けても付けなくてもよい）, 第2引数ポリゴンインデックスリスト名, 第3引数：オプション
-parametric_vtsC 　第1引数：(u,v)->(x,y,z)の関数, 第2引数：uの範囲, 第3引数：vの範囲, 第4引数：u方向の分割数, 第5引数：v方向の分割数
-parametric_indexC　第1引数：u方向の分割数, 第2引数：v方向の分割数
-*/
+scene1.add(mesh1);
+scene2.add(mesh2);
+scene3.add(mesh3);
+
+
+
+//最後に記述する　1フレーム分レンダリング
+renderer1.render(scene1, camera1);
+renderer2.render(scene2, camera2);
+renderer3.render(scene3, camera3);
