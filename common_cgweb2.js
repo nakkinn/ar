@@ -93,6 +93,10 @@ let scene_group = [];
 
 document.querySelectorAll("canvas").forEach( canvas => {
 
+    canvas.style.touchAction = 'none';     //スクロール禁止
+
+    canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    
+
     canvas.addEventListener("pointerdown", ()=>{
         for(let i=0; i<scene_group.length; i++){
             if(canvas.id==scene_group[i].renderer.domElement.id && active_index!=i){
@@ -329,16 +333,6 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.mozUserSelect = 'none';
     });
 });
-
-
-//キャンバスをタッチ時スクロールや拡大縮小が起きないようにする
-document.getElementById('3d_graphic_canvas').style.touchAction = 'none';    
-
-
-//スマホ操作時、左端からスワイプした際ブラウザバッグしないようにする・iphoneで長押し時拡大鏡が出ないようにする
-document.getElementById('3d_graphic_canvas').addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    
-
-
 
 
 
