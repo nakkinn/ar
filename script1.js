@@ -215,7 +215,8 @@ slider1.func = () =>{
         let u = PI/8*j + PI/16;
         let v = PI/8*i + PI/16;
         let tmp = vilaceau(u,v);
-        /*if(tmp[0]*tmp[0]+tmp[1]*tmp[1]+tmp[2]*tmp[2]<scr*scr)*/   plist.push(tmp);
+        if(tmp[0]*tmp[0]+tmp[1]*tmp[1]+tmp[2]*tmp[2]<scr*scr)   plist.push(tmp);
+        else    plist.push([999999, 999999, 999999]);
     }
     points_vts = points_vtsC(plist, 0.045);  //球のグループの頂点座標の再計算
 
