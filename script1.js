@@ -1,36 +1,3 @@
-//色
-let uribbon_omote_color, uribbon_ura_color, vribbon_omote_color, vribbon_ura_color, neji_color;
-let surface_omote_color, surface_ura_color, utube_color, vtube_color;
-
-//帯の色
-uribbon_omote_color = 0xff6600, uribbon_ura_color = 0xffaa00, vribbon_omote_color = 0x0044ff, vribbon_ura_color = 0x00aaff;
-// uribbon_omote_color = 0xff3b1d, uribbon_ura_color = 0xfe7f2d, vribbon_omote_color = 0x3e78b2, vribbon_ura_color = 0x233d4d;
-// uribbon_omote_color = 0x375c95, uribbon_ura_color = 0x3e661a, vribbon_omote_color = 0xfeb900, vribbon_ura_color = 0xf96441;
-// uribbon_omote_color = 0x1f45d0, uribbon_ura_color = 0x1f4590, vribbon_omote_color = 0xf8bd2e, vribbon_ura_color = 0xb88d2e;
-// uribbon_omote_color = 0x6ad357, uribbon_ura_color = 0x9af387, vribbon_omote_color = 0x3648f1, vribbon_ura_color = 0x6678f1;
-// uribbon_omote_color = 0xac308c, uribbon_ura_color = 0xcc60bc, vribbon_omote_color = 0x54d775, vribbon_ura_color = 0x84f7a5;
-// uribbon_omote_color = 0x004182, uribbon_ura_color = 0x118df0, vribbon_omote_color = 0xfbffa3, vribbon_ura_color = 0xff4b69;
-// uribbon_omote_color = 0xa52400, uribbon_ura_color = 0xa52480, vribbon_omote_color = 0x48ada6, vribbon_ura_color = 0x48adf6;
-
-//球の色
-neji_color = 0xdddddd;
-// neji_color = 0x999999;
-// neji_color = 0xf6ccff;
-
-//曲面の色
-surface_omote_color = 0xff5500, surface_ura_color = 0x0055ff;
-// surface_omote_color = 0x2e09a6, surface_ura_color = 0xd9fd59;
-// surface_omote_color = 0x205989, surface_ura_color = 0xf3a975;
-// surface_omote_color = 0x1f45d0, surface_ura_color = 0xf8bd2e;
-// surface_omote_color = 0xcab3a7, surface_ura_color = 0x364851;
-// surface_omote_color = 0xac308c, surface_ura_color = 0x54d775;
-// surface_omote_color = 0x2a2a2a, surface_ura_color = 0xd6334b;
-// surface_omote_color = 0xa52400, surface_ura_color = 0x48adf6;
-
-//チューブの色
-utube_color = 0xeeeeee, vtube_color = 0xeeeeee;
-
-
 
 //レンダラー
 let renderer1 = new THREE.WebGLRenderer({
@@ -47,198 +14,246 @@ let renderer2 = new THREE.WebGLRenderer({
 });
 renderer2.setClearColor(0xeeeeee, 1);
 
+let renderer3 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas3'),
+    antialias: true,
+    alpha:false 
+});
+renderer3.setClearColor(0xeeeeee, 1);
+
+let renderer4 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas4'),
+    antialias: true,
+    alpha:false 
+});
+renderer4.setClearColor(0xeeeeee, 1);
+
+let renderer5 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas5'),
+    antialias: true,
+    alpha:false 
+});
+renderer5.setClearColor(0xeeeeee, 1);
+
+let renderer6 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas6'),
+    antialias: true,
+    alpha:false 
+});
+renderer6.setClearColor(0xeeeeee, 1);
+
+let renderer7 = new THREE.WebGLRenderer({
+    canvas:document.getElementById('canvas7'),
+    antialias: true,
+    alpha:false 
+});
+renderer7.setClearColor(0xeeeeee, 1);
+
 
 //カメラ
-let camera1 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -7, 7], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
-let camera2 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -7, 7], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
-
+let camera1 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
+let camera2 = camera1.clone(); //透視投影カメラ（オブションは省略可能）
+let camera3 = camera1.clone();
+let camera4 = camera1.clone();
+let camera5 = camera1.clone();
+let camera6 = camera1.clone();
+let camera7 = camera1.clone();
 
 
 //シーン
 let scene1 = new SceneC(renderer1, camera1);
 let scene2 = new SceneC(renderer2, camera2);
-
+let scene3 = new SceneC(renderer3, camera3);
+let scene4 = new SceneC(renderer4, camera4);
+let scene5 = new SceneC(renderer5, camera5);
+let scene6 = new SceneC(renderer6, camera6);
+let scene7 = new SceneC(renderer7, camera7);
 
 
 //ライト
-let lighta1 = new THREE.AmbientLight(0xffffff, 0.5) //環境ライト
-let lighta2 = new THREE.AmbientLight(0xffffff, 0.3)
-let lightd1 = new THREE.DirectionalLight(0xffffff, 0.6);    //指向性ライト
+let lighta1 = new THREE.AmbientLight(0xffffff, 0.4) //環境ライト
+let lightd1 = new THREE.DirectionalLight(0xffffff, 0.7);    //指向性ライト
 lightd1.position.set( 0, -1, 1 )
-let lightd2 = new THREE.DirectionalLight(0xffffff, 0.8); 
-lightd2.position.set( 0, -1, 1 )
 
-scene1.add( lighta1 );  //シーンにライトを追加する　同じライトを複数のキャンバスに追加する場合 .clone を付ける
-scene1.add( lightd1 );
-scene2.add( lighta2 ); 
-scene2.add( lightd2 );
+
+scene1.add( lighta1.clone() );  //シーンにライトを追加する　同じライトを複数のキャンバスに追加する場合 .clone を付ける
+scene1.add( lightd1.clone() );
+scene2.add( lighta1.clone() ); 
+scene2.add( lightd1.clone() );
+scene3.add( lighta1.clone() ); 
+scene3.add( lightd1.clone() );
+scene4.add( lighta1.clone() ); 
+scene4.add( lightd1.clone() );
+scene5.add( lighta1.clone() ); 
+scene5.add( lightd1.clone() );
+scene6.add( lighta1.clone() ); 
+scene6.add( lightd1.clone() );
+scene7.add( lighta1.clone() ); 
+scene7.add( lightd1.clone() );
+
 
 
 
 //オブジェクト
 
-let parameter1 = 0; //キャンバス１の曲面の形状を変化させるパラメータ
-let neji_visible = true;    //ねじを表す球を表示するか否か
+const detail = 81;
 
-
-const check1 = document.getElementById("check1");   //チェックボックス
-if(check1!=undefined)   check1.addEventListener("input", ()=>{  //チェックボックスの値が変わったとき、neji_visibleとscene2のオブジェクトの更新をする
-    neji_visible = check1.checked;
-    updateObjectC( scene1 );
-});
-
-
-
-//ヴィラソートーラスの関数（入力：u,v　出力：[x,y,z]）
-const vilaceau = function(u, v){
-
-    let t1 = parameter1 * 2; //0<t1<4
-
-    let a1 = PI / 4 * t1;    //4次元上での回転角 0<a1<2PI
-
-    let u1 = u + v;
-    let v1 = u - v;
-
-
-    //係数補正 4を法としてt=0,4のとき2, t=1のとき1, t=2のとき1/2, t=3のとき1
-    function f1(t){
-        t = (t+40000) % 4;
-        if(t<2) return -1/4 * t**4 + 11/8 * t**3 - 17/8 * t**2 + 2;
-        else  return   -1/4 * t**4 + 21/8 * t**3 - 77/8 * t**2 + 15 * t - 8;
-    }
-
-    //スケール補正 t=0,2,4のとき1.4, t=1,3のとき1
-    function f2(t){
-        return 1.2 + 0.2 * cos(PI*t);
-    }
-
-    //4次元上での座標
-    let x0 = f1(t1) * cos(u1);
-    let y0 = f1(t1) * sin(u1);
-    let z0 = cos(v1);
-    let w0 = sin(v1);
-
-    //4次元上で回転
-    let x1 = x0 * cos(a1) + w0 * sin(a1);
-    let y1 = y0;
-    let z1 = z0;
-    let w1 = - x0 * sin(a1) + w0 * cos(a1);
-
-    //正規化
-    let x2 = x1 / Math.sqrt(x1*x1+y1*y1+z1*z1+w1*w1);
-    let y2 = y1 / Math.sqrt(x1*x1+y1*y1+z1*z1+w1*w1);
-    let z2 = z1 / Math.sqrt(x1*x1+y1*y1+z1*z1+w1*w1);
-    let w2 = w1 / Math.sqrt(x1*x1+y1*y1+z1*z1+w1*w1);
-
-    //stereo graphic projection
-    let x3 = f2(t1) * x2 / (1.0001 - w2);
-    let y3 = f2(t1) * y2 / (1.0001 - w2);
-    let z3 = f2(t1) * z2 / (1.0001 - w2);
-
-    return [x3, y3, z3];    
+//【キャンバス１】
+let func1 = function(u,v){
+    let x, y, z;
+    x = u;
+    y = v;
+    z = Math.atan(x*1.5*PI*y*1.5*PI)*0.5;
+    return [x,y,z];
 }
 
+let vts1 = parametric_vtsC(func1, [-1,1], [-1,1], detail, detail);
+let index_mesh = parametric_indexC(detail, detail);
+let surf1 = createMeshC(vts1, index_mesh, {color:0x0066ff, scale:2.2});
+
+scene1.add(surf1);
 
 
-let list1 = []; //各u(v)曲線の固定したv(u)の値のリスト
-for(let i=0; i<8; i++)  list1.push(PI/8*i + PI/16); // PI/16からPI/8刻みに8本
 
-
-let plist = []; //球の位置
-for(let i=0; i<8; i++)   for(let j=0; j<16; j++){
-    let u = PI/8*j + PI/16;
-    let v = PI/8*i + PI/16;
-    plist.push(vilaceau(u,v));
+//【キャンバス２】
+let func2 = function(u, v){
+    let x, y, z;
+    x = u;
+    y = v;
+    z = Math.atan(y/x) * 0.4;
+    return [x,y,z];
 }
 
-let uribbon_vts, vribbon_vts, ribbon_index;
-//u曲線の帯の頂点リスト（第1引数：u,v->[x,y,z]の関数, 第2引数：各u曲線の固定したvの値のリスト, 第3引数：uの範囲, 第4引数：分割数, 第5引数：帯の太さ, 第6引数：法線方向への押し出し量
-uribbon_vts = ribbonU_vtsC(vilaceau, list1, [0, 2*PI], 128, 0.08, 0.01);   
-//v曲線の帯の頂点リスト
-vribbon_vts = ribbonV_vtsC(vilaceau, list1, [0, 2*PI], 128, 0.08, -0.01); 
-//u曲線の帯のポリゴンインデックスリスト（第1引数：帯の本数(list1の長さ), 第2引数：分割数）
-ribbon_index = ribbon_indexC(128, list1.length);  
+let vts2 = parametric_vtsC(func2, [-1,1], [-1,1], detail, detail);
+let surf2 = createMeshC(vts2, index_mesh, {color:0xff6600, scale:2.2, flatshade:true});
 
-//球の集合のメッシュの頂点リスト
-let points_vts = points_vtsC(plist, 0.045);  
-//球の集合のメッシュのポリゴンインデックスリスト
-let points_index = points_indexC(plist.length); 
-
-
-//曲面の頂点リスト　第1引数：(u,v)->(x,y,z)の関数, 第2引数：uの範囲, 第3引数：vの範囲, 第4引数：u方向の分割数, 第5引数：v方向の分割数 
-let mesh_vts = parametric_vtsC(vilaceau, [PI/16,2*PI+PI/16], [PI/16,PI+PI/16], 64, 64);
-//曲面のポリゴンインデックスリスト　第1引数：u方向の分割数, 第2引数：v方向の分割数
-let mesh_index = parametric_indexC(64, 64);
-
-
-let utubes_vts, vtubes_vts, tubes_index;
-//u曲線のチューブの集合の頂点
-utubes_vts = tubeU_vtsC(vilaceau, list1, [PI/16, 2*PI+PI/16], 64, 0.02, 6);
-//v曲線のチューブの集合の頂点
-vtubes_vts = tubeV_vtsC(vilaceau, list1, [PI/16, 2*PI+PI/16], 64, 0.02, 6);
-//u(v)曲線のチューブの集合のポリゴンインデックスリスト
-tubes_index = tube_indexC(64, 6, list1.length);
-
-
-let sc1 = 1.3;  //scene1内のオブジェクトのスケール
-let sc2 = 1.1;  //scene2内のオブジェクトのスケール
-let scr = 3.8;  //cutting sphere の半径
-
-
-//シーンにオブジェクトを追加
-//帯
-scene1.add( createMeshC("uribbon_vts", ribbon_index, {scale:sc1, color:uribbon_omote_color, spherecutradius:scr, side:2}) );    
-scene1.add( createMeshC("uribbon_vts", ribbon_index, {scale:sc1, color:uribbon_ura_color, spherecutradius:scr, side:1}) );
-scene1.add( createMeshC("vribbon_vts", ribbon_index, {scale:sc1, color:vribbon_omote_color, spherecutradius:scr}) );
-scene1.add( createMeshC("vribbon_vts", ribbon_index, {scale:sc1, color:vribbon_ura_color, spherecutradius:scr, side:2}) );
-//球
-scene1.add( createMeshC("points_vts", points_index, {scale:sc1, color:neji_color, visible:"neji_visible"} ) );
-
-//曲面
-scene2.add( createMeshC("mesh_vts", mesh_index, {scale:sc2, color:surface_omote_color, spherecutradius:scr, side:1}) );
-scene2.add( createMeshC("mesh_vts", mesh_index, {scale:sc2, color:surface_ura_color, spherecutradius:scr, side:2}) );
-// チューブ
-scene2.add( createMeshC("utubes_vts", tubes_index, {scale:sc2, color:utube_color, spherecutradius:scr}) );
-scene2.add( createMeshC("vtubes_vts", tubes_index, {scale:sc2, color:vtube_color, spherecutradius:scr}) );
+scene2.add(surf2);
 
 
 
-//スライダー1操作時の処理
-slider1.func = () =>{
-
-    parameter1 = slider1.value; //パラメータの更新
-    uribbon_vts = ribbonU_vtsC(vilaceau, list1, [0, 2*PI], 128, 0.08, 0.01);   //帯の頂点座標の更新
-    vribbon_vts = ribbonV_vtsC(vilaceau, list1, [0, 2*PI], 128, 0.08, -0.01); 
-
-    plist = []; //球の位置の再計算
-    for(let i=0; i<8; i++)   for(let j=0; j<16; j++){
-        let u = PI/8*j + PI/16;
-        let v = PI/8*i + PI/16;
-        let tmp = vilaceau(u,v);
-        if(tmp[0]*tmp[0]+tmp[1]*tmp[1]+tmp[2]*tmp[2]<scr*scr)   plist.push(tmp);
-        else    plist.push([999999, 999999, 999999]);
-    }
-    points_vts = points_vtsC(plist, 0.045);  //球のグループの頂点座標の再計算
-
-    updateObjectC( scene1 );
+//【キャンバス３】
+let func3 = function(u, v){
+    let x, y, z;
+    let u1 = u*3, v1 = v*3;
+    x = u;
+    y = v;
+    z = exp(u1*v1) / (exp(u1) + exp(v1)) - 0.8;
+    return [x,y,z];
 }
 
+let vts3 = parametric_vtsC(func3, [-1, 1], [-1, 1], detail, detail);
+let surf3 = createMeshC(vts3, index_mesh, {color:0x66ff00, scale:2.2, flatshade:false});
+
+scene3.add(surf3);
+const cut_plane1 = new THREE.Plane(new THREE.Vector3(0,0,-1.5), 1);
+renderer3.clippingPlanes.push(cut_plane1);
 
 
-//スライダー2操作時の処理
+//【キャンバス４】
+let func4 = function(u, v){
+    let x, y, z;
+    x = u;
+    y = v;
+    z = x / sqrt(x*x + y*y);
+    return [x,y,z];
+}
+
+let vts4 = parametric_vtsC(func4, [-1, 1], [-1, 1], detail, detail);
+let surf4 = createMeshC(vts4, index_mesh, {color:0xff0066, scale:2.2, flatshade:false});
+
+scene4.add(surf4);
+
+
+
+//【キャンバス5】
+let func5 = function(u, v){
+    let x, y, z;
+    x = u;
+    y = v;
+    let u1 = u*PI*1, v1 = v*PI*1;
+    z = sin(u1*v1) * 0.4;
+    return [x,y,z];
+}
+
+let vts5 = parametric_vtsC(func5, [-1, 1], [-1, 1], detail, detail);
+let surf5 = createMeshC(vts5, index_mesh, {color:0x6600ff, scale:2.2, flatshade:false});
+
+scene5.add(surf5);
+
+
+
+//【キャンバス6】
+let func6 = function(u, v){
+    let x, y, z;
+    x = u;
+    y = v;
+    z = x * y / (x*x + y*y);
+    return [x,y,z];
+}
+
+let vts6 = parametric_vtsC(func6, [-1, 1], [-1, 1], detail, detail);
+let surf6 = createMeshC(vts6, index_mesh, {color:0x00aa00, scale:2.2, flatshade:true});
+
+let points;
+let parameter2 = 0
+points = [[cos(parameter2), sin(parameter2), sin(2*parameter2)/2], [cos(parameter2+PI), sin(parameter2+PI), sin(2*parameter2)/2]];
+
+let vts6b = tube_vts1C(points, 0.02, 6);
+let index6b = tube_indexC(1, 6);
+let surf6b = createMeshC("vts6b", index6b, {color:0xffff00, scale:2.2});
+
+scene6.add(surf6);
+scene6.add(surf6b);
+
+
 slider2.func = () =>{
-    parameter1 = slider2.value;
-    mesh_vts = parametric_vtsC(vilaceau, [PI/16,2*PI+PI/16], [PI/16,PI+PI/16], 64, 64); //曲面の座標の更新
-    utubes_vts = tubeU_vtsC(vilaceau, list1, [PI/16, 2*PI+PI/16], 64, 0.02, 6); //チューブの頂点座標の更新
-    vtubes_vts = tubeV_vtsC(vilaceau, list1, [PI/16, 2*PI+PI/16], 64, 0.02, 6);
-    updateObjectC( scene2 );
+    parameter2 = PI * slider2.value;
+    points = [[cos(parameter2), sin(parameter2), sin(2*parameter2)/2], [cos(parameter2+PI), sin(parameter2+PI), sin(2*parameter2)/2]];
+    vts6b = tube_vts1C(points, 0.02, 6);
+    updateObjectC( scene6 );
 }
 
+
+//【キャンバス7】
+let parameter1 = 0.2;
+
+let func7 = function(r, t){
+    let x, y, z;
+    // x = u;
+    // y = v;
+    // z = x * y / (x*x + y*y + parameter1);
+    x = r * cos(t);
+    y = r * sin(t);
+    z = sin(t) * cos(t);
+    return [x,y,z];
+}
+
+let points7 = [[1.5*cos(parameter2), 1.5*sin(parameter2), sin(2*parameter2)/2], [1.5*cos(parameter2+PI), 1.5*sin(parameter2+PI), sin(2*parameter2)/2]];
+let vts7b = tube_vts1C(points7, 0.025, 6);
+let vts7 = parametric_vtsC(func7, [0, 1.5], [0, 2*PI], detail, detail);
+let surf7 = createMeshC(vts7, index_mesh, {color:0x00aa00, scale:2, flatshade:false});
+let surf7b = createMeshC("vts7b", index6b, {color:0xffff00, scale:2});
+
+scene7.add(surf7);
+scene7.add(surf7b);
+
+
+slider1.func = () =>{
+    parameter2 = PI * slider1.value;
+    points7 = [[1.5*cos(parameter2), 1.5*sin(parameter2), sin(2*parameter2)/2], [1.5*cos(parameter2+PI), 1.5*sin(parameter2+PI), sin(2*parameter2)/2]];
+    vts7b = tube_vts1C(points7, 0.025, 6);
+    updateObjectC( scene7 );
+}
 
 
 //レンダリング
 renderer1.render(scene1, camera1);
 renderer2.render(scene2, camera2);
+renderer3.render(scene3, camera3);
+renderer4.render(scene4, camera4);
+renderer5.render(scene5, camera5);
+renderer6.render(scene6, camera6);
+renderer7.render(scene7, camera7);
 animateC();
 
 

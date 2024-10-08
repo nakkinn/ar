@@ -5,6 +5,10 @@ function sin(a1){return Math.sin(a1)};
 function cos(a1){return Math.cos(a1)};
 function tan(a1){return Math.tan(a1)};
 function sqrt(a1){return Math.sqrt(a1)};
+function asin(a1){return Math.asin(a1)};
+function acos(a1){return Math.acos(a1)};
+function atan(a1){return Math.atan(a1)};
+function exp(a1){return Math.exp(a1)};
 
 
 
@@ -496,6 +500,12 @@ function animateC(){
         if(object.isMesh || object.isLine){
             object.rotateOnWorldAxis(axis, rad);
         }
+    });
+
+    active_renderer.clippingPlanes.forEach(plane => {
+        let qua = new THREE.Quaternion();
+        qua.setFromAxisAngle(axis, rad);
+        plane.normal.applyQuaternion(qua);
     });
 
     dummymesh.rotateOnWorldAxis(axis, rad);
