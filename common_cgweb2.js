@@ -1103,13 +1103,34 @@ function updateObjectC(scene){
     active_scene = scene;
 
     for(let i=0; i<scene_group.length; i++){
-        if(scene_group[i].renderer.domElement.id == active_canvas.id){
-            if(active_index!=i){
-                active_index = i;
-                angularvelocity1.set(0, 0, 0);
-                pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
-                mousemovementX = 0, mousemovmentY = 0;
-            }
+        if(scene_group[i].renderer.domElement.id == active_canvas.id && active_index!=i){
+
+            active_canvas.removeEventListener("pointerdown", press_updateC);
+            active_canvas.removeEventListener("pointermove", mousemovment_updateC);
+            active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+            active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
+
+
+            active_index = i;
+            active_canvas = scene_group[i].renderer.domElement;
+            active_camera = scene_group[i].camera;
+            active_renderer = scene_group[i].renderer;
+            active_scene = scene_group[i];
+
+            angularvelocity1.set(0, 0, 0);
+            pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
+            mousemovementX = 0, mousemovmentY = 0;
+            mouseIsPressed = true;
+
+            active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
+            active_canvas.addEventListener('pointermove',(event)=>{
+                mousemovment_updateC(event)
+            });
+            active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+            active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
+
+            break;
+        
         }
     }
 }
