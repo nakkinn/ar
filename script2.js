@@ -137,7 +137,7 @@ scene1.add( createMeshC(vtubes_vts0, uvtube_index0, {color:0xffffff, scale:sc1})
 scene1.add( createMeshC("slice1_vts", slice_index, {color:0xff6600, scale:sc1}));   //スライス
 scene1.add( createMeshC("slice2_vts", slice_index, {color:0x00aaff, scale:sc1}));   
 
-scene1.add( createMeshC("vts1b", index1b, {color:0x00aa00, scale:sc1, opacity:1}) );  //接平面
+scene1.add( createMeshC("vts1b", index1b, {color:0x00aa00, scale:sc1, opacity:0.8}) );  //接平面
 scene1.add(createMeshC(vts1, index_mesh, {color:0xffff00, scale:sc1, opacity:0.52}));    //曲面
 
 

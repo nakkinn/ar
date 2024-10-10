@@ -1,4 +1,4 @@
-//ver2
+//ver2.5
 
 const PI = Math.PI;
 function sin(a1){return Math.sin(a1)};
@@ -97,38 +97,42 @@ document.querySelectorAll("canvas").forEach( canvas => {
 
     canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    
 
-    canvas.addEventListener("pointerdown", ()=>{
-        for(let i=0; i<scene_group.length; i++){
-            if(canvas.id==scene_group[i].renderer.domElement.id && active_index!=i){
+    // canvas.addEventListener("pointerdown", ()=>{
+    //     for(let i=0; i<scene_group.length; i++){
+    //         if(canvas.id==scene_group[i].renderer.domElement.id && active_index!=i){
 
-                active_canvas.removeEventListener("pointerdown", press_updateC);
-                active_canvas.removeEventListener("pointermove", mousemovment_updateC);
-                // active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-                // active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
+    //             active_canvas.removeEventListener("pointerdown", press_updateC);
+    //             active_canvas.removeEventListener("pointermove", mousemovment_updateC);
+    //             // active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+    //             // active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
 
-                active_index = i;
-                active_canvas = scene_group[i].renderer.domElement;
-                active_camera = scene_group[i].camera;
-                active_renderer = scene_group[i].renderer;
-                active_scene = scene_group[i];
+    //             active_index = i;
+    //             active_canvas = scene_group[i].renderer.domElement;
+    //             active_camera = scene_group[i].camera;
+    //             active_renderer = scene_group[i].renderer;
+    //             active_scene = scene_group[i];
 
-                angularvelocity1.set(0, 0, 0);
-                pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
-                mousemovementX = 0, mousemovementY = 0;
-                mouseIsPressed = true;
+    //             angularvelocity1.set(0, 0, 0);
+    //             pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
+    //             mousemovementX = 0, mousemovementY = 0;
+    //             mouseIsPressed = true;
 
-                active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
-                active_canvas.addEventListener('pointermove',(event)=>{
-                    mousemovment_updateC(event)
-                });
-                // active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-                // active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
+    //             active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
+    //             active_canvas.addEventListener('pointermove',(event)=>{
+    //                 mousemovment_updateC(event)
+    //             });
+    //             // active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+    //             // active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
-                break;
-            }
-        }
-    });
+    //             break;
+    //         }
+    //     }
+    // });
+
+    
+    canvas.addEventListener("pointerdown", ()=>{press_updateC});
+    canvas.addEventListener("pointermove", ()=>{mousemovment_updateC});
 
     
     canvas.addEventListener('mousemove',(event)=>{

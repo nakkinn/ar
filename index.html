@@ -10,11 +10,11 @@
     <!--自作スライダーライブラリ-->
     <script src="myslider.js"></script>
 
-    <!--MathJX-->
+    <!--MathJX　数式を表記するためのライブラリ-->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 
-    <h3>10/9　微分積分演習Ⅱ　2変数関数の曲面</h3>
+    <h3>微分積分演習Ⅱ　2変数関数の曲面</h3>
 
 
     <h5> \( z = \mathrm{Tan} ^{-1} xy \) </h5>
@@ -24,7 +24,7 @@
     <!--キャンバスのサイズ指定-->
     <script>  
       let canvas1 = document.getElementById('canvas1'); 
-      var size1 = Math.min(500, window.innerWidth * 0.85);  //画面横幅より広くなるのを回避するためにmin関数を使用
+      var size1 = Math.min(500, window.innerWidth);  //画面横幅より広くなるのを回避するためにmin関数を使用
       canvas1.width = size1 * window.devicePixelRatio;  //画素数
       canvas1.height = size1 * window.devicePixelRatio;
       canvas1.style.width = size1;  //サイズ
