@@ -1069,7 +1069,7 @@ function updateObjectC(scene){
 
             //object.geometry.getAttribute('position').needsUpdate = true;
             object.geometry.computeVertexNormals(); //頂点の法線ベクトルの更新
-
+            object.geometry.computeBoundingSphere();
         }
 
         if(object.className == 'ballC'){

@@ -14,7 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 
-    <h3>10月9日　微分積分演習Ⅱ　2変数関数の曲面</h3>
+    <h3>10/9　微分積分演習Ⅱ　2変数関数の曲面</h3>
 
 
     <h5> \( z = \mathrm{Tan} ^{-1} xy \) </h5>
@@ -31,103 +31,11 @@
       canvas1.style.height = size1;
     </script>
 
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \mathrm{Tan} ^{-1} \dfrac{y}{x} \) </h5>
-
-
-    <canvas id="canvas2" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas2 = document.getElementById('canvas2'); 
-      canvas2.width = size1 * window.devicePixelRatio; 
-      canvas2.height = size1 * window.devicePixelRatio;
-      canvas2.style.width = size1; 
-      canvas2.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{e^{xy}}{e^x + e^y} \) </h5>
-
-    <canvas id="canvas3" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas3= document.getElementById('canvas3'); 
-      canvas3.width = size1 * window.devicePixelRatio; 
-      canvas3.height = size1 * window.devicePixelRatio;
-      canvas3.style.width = size1; 
-      canvas3.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{x}{\sqrt{x^2 + y^2}} \) </h5>
-
-    <canvas id="canvas4" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas4= document.getElementById('canvas4'); 
-      canvas4.width = size1 * window.devicePixelRatio; 
-      canvas4.height = size1 * window.devicePixelRatio;
-      canvas4.style.width = size1; 
-      canvas4.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \mathrm{sin} \, xy \) </h5>
-
-    <canvas id="canvas5" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas5= document.getElementById('canvas5'); 
-      canvas5.width = size1 * window.devicePixelRatio; 
-      canvas5.height = size1 * window.devicePixelRatio;
-      canvas5.style.width = size1; 
-      canvas5.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{xy}{x^2+y^2} \) </h5>
-
-    <canvas id="canvas6" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas6= document.getElementById('canvas6'); 
-      canvas6.width = size1 * window.devicePixelRatio; 
-      canvas6.height = size1 * window.devicePixelRatio;
-      canvas6.style.width = size1; 
-      canvas6.style.height = size1;
-    </script>
-
     <script>
-      let slider2 = {}; //スライダーを削除する場合この行は削除しない
-      slider2 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      let slider3 = {}, slider4 = {}; //スライダーを削除する場合この行は削除しない
+      slider3 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      slider4 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
     </script>
-
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{\mathrm{sin} \, 2\theta}{2} \) </h5>
-
-    <canvas id="canvas7" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas7 = document.getElementById('canvas7'); 
-      canvas7.width = size1 * window.devicePixelRatio; 
-      canvas7.height = size1 * window.devicePixelRatio;
-      canvas7.style.width = size1; 
-      canvas7.style.height = size1;
-    </script>
-
-    <script>
-      let slider1 = {}; //スライダーを削除する場合この行は削除しない
-      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
-    </script>
-
 
 
     <!--three.jsライブラリ　CDNを使ってインターネット経由でライブラリをインポートする-->
@@ -136,7 +44,7 @@
 
     <!--プログラム-->
     <script src="common_cgweb2.js"></script> <!--three.jsの機能を扱いやすくするための自作ライブラリ-->
-    <script src='script1.js'></script>  <!--表示するオブジェクトやレンダリングの設定、スライダー操作時の処理について記述したファイル-->
+    <script src='script2.js'></script>  <!--表示するオブジェクトやレンダリングの設定、スライダー操作時の処理について記述したファイル-->
 
 
   </body>
