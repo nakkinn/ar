@@ -21,8 +21,8 @@ class SceneC extends THREE.Scene{
         scene_group.push( this );
 
         if(active_index>=0){
-            active_canvas.removeEventListener("pointerdown", press_updateC);
-            active_canvas.removeEventListener("pointermove", mousemovment_updateC);
+            // active_canvas.removeEventListener("pointerdown", press_updateC);
+            // active_canvas.removeEventListener("pointermove", mousemovment_updateC);
             // active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
             // active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
         }
