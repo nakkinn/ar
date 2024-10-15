@@ -1,14 +1,10 @@
-//ver2.5
+//ver2
 
 const PI = Math.PI;
 function sin(a1){return Math.sin(a1)};
 function cos(a1){return Math.cos(a1)};
 function tan(a1){return Math.tan(a1)};
 function sqrt(a1){return Math.sqrt(a1)};
-function asin(a1){return Math.asin(a1)};
-function acos(a1){return Math.acos(a1)};
-function atan(a1){return Math.atan(a1)};
-function exp(a1){return Math.exp(a1)};
 
 
 
@@ -97,42 +93,38 @@ document.querySelectorAll("canvas").forEach( canvas => {
 
     canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    
 
-    // canvas.addEventListener("pointerdown", ()=>{
-    //     for(let i=0; i<scene_group.length; i++){
-    //         if(canvas.id==scene_group[i].renderer.domElement.id && active_index!=i){
+    canvas.addEventListener("pointerdown", ()=>{
+        for(let i=0; i<scene_group.length; i++){
+            if(canvas.id==scene_group[i].renderer.domElement.id && active_index!=i){
 
-    //             active_canvas.removeEventListener("pointerdown", press_updateC);
-    //             active_canvas.removeEventListener("pointermove", mousemovment_updateC);
-    //             // active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-    //             // active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
+                active_canvas.removeEventListener("pointerdown", press_updateC);
+                active_canvas.removeEventListener("pointermove", mousemovment_updateC);
+                // active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+                // active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
 
-    //             active_index = i;
-    //             active_canvas = scene_group[i].renderer.domElement;
-    //             active_camera = scene_group[i].camera;
-    //             active_renderer = scene_group[i].renderer;
-    //             active_scene = scene_group[i];
+                active_index = i;
+                active_canvas = scene_group[i].renderer.domElement;
+                active_camera = scene_group[i].camera;
+                active_renderer = scene_group[i].renderer;
+                active_scene = scene_group[i];
 
-    //             angularvelocity1.set(0, 0, 0);
-    //             pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
-    //             mousemovementX = 0, mousemovementY = 0;
-    //             mouseIsPressed = true;
+                angularvelocity1.set(0, 0, 0);
+                pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
+                mousemovementX = 0, mousemovementY = 0;
+                mouseIsPressed = true;
 
-    //             active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
-    //             active_canvas.addEventListener('pointermove',(event)=>{
-    //                 mousemovment_updateC(event)
-    //             });
-    //             // active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-    //             // active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
+                active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
+                active_canvas.addEventListener('pointermove',(event)=>{
+                    mousemovment_updateC(event)
+                });
+                // active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+                // active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
-    //             break;
-    //         }
-    //     }
-    // });
-
-    
-    canvas.addEventListener("pointerdown", ()=>{press_updateC});
-    canvas.addEventListener("pointermove", ()=>{mousemovment_updateC});
+                break;
+            }
+        }
+    });
 
     
     canvas.addEventListener('mousemove',(event)=>{
@@ -483,6 +475,8 @@ function tripolyC(list){
 function animateC(){
     requestAnimationFrame(animateC);
 
+    myfunclist.forEach(func => func());
+
     let v1 = active_camera.getWorldDirection(new THREE.Vector3()).normalize();
     let v2 = v1.clone().cross(active_camera.up.clone());
     let v3 = v2.applyAxisAngle( v1, Math.atan2(mousemovementY,mousemovementX) - PI/2).normalize();
@@ -504,12 +498,6 @@ function animateC(){
         if(object.isMesh || object.isLine){
             object.rotateOnWorldAxis(axis, rad);
         }
-    });
-
-    active_renderer.clippingPlanes.forEach(plane => {
-        let qua = new THREE.Quaternion();
-        qua.setFromAxisAngle(axis, rad);
-        plane.normal.applyQuaternion(qua);
     });
 
     dummymesh.rotateOnWorldAxis(axis, rad);
@@ -1073,7 +1061,7 @@ function updateObjectC(scene){
 
             //object.geometry.getAttribute('position').needsUpdate = true;
             object.geometry.computeVertexNormals(); //頂点の法線ベクトルの更新
-            object.geometry.computeBoundingSphere();
+
         }
 
         if(object.className == 'ballC'){

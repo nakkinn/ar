@@ -1,247 +1,135 @@
-
 //レンダラー
 let renderer1 = new THREE.WebGLRenderer({
-    canvas:document.getElementById('canvas1'),  //idを指定
-    antialias: true,    //境界線のスムーズ
-    alpha:false //透過
+    canvas : document.getElementById("canvas1"),
+    antialias : true
 });
-renderer1.setClearColor(0xeeeeee, 1);  //背景色（第1引数：色, 第2引数：透明度 0のとき透明,1のとき不透明）
+renderer1.setClearColor(0xeeeeee, 1);
 
+let renderer2 = new THREE.WebGLRenderer({
+    canvas : document.getElementById("canvas2"),
+    antialias : true
+});
+renderer2.setClearColor(0xeeeeee, 1);
+
+let renderer3 = new THREE.WebGLRenderer({
+    canvas : document.getElementById("canvas3"),
+    antialias : true
+});
+renderer3.setClearColor(0xeeeeee, 1);
 
 
 //カメラ
-let camera1 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
+let camera1 = createPerspectiveCameraC({fov:60, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
+let camera2 = createPerspectiveCameraC({fov:60, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
+let camera3 = createPerspectiveCameraC({fov:60, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
 
 
 //シーン
 let scene1 = new SceneC(renderer1, camera1);
+let scene2 = new SceneC(renderer2, camera2);
+let scene3 = new SceneC(renderer3, camera3);
 
 
 //ライト
-let lighta1 = new THREE.AmbientLight(0xffffff, 0.4) //環境ライト
-let lightd1 = new THREE.DirectionalLight(0xffffff, 0.7);    //指向性ライト
-lightd1.position.set( 0, -1, 1 )
+let lighta1 = new THREE.AmbientLight(0xffffff, 0.3);
+let lightd1 = new THREE.DirectionalLight(0xffffff, 0.6);
+lightd1.position.set(0, -1, 0);
 
-
-scene1.add( lighta1.clone() );  //シーンにライトを追加する　同じライトを複数のキャンバスに追加する場合 .clone を付ける
-scene1.add( lightd1.clone() );
+scene1.add(lighta1.clone());
+scene1.add(lightd1.clone());
+scene2.add(lighta1.clone());
+scene2.add(lightd1.clone());
+scene3.add(lighta1.clone());
+scene3.add(lightd1.clone());
 
 
 //オブジェクト
 
-const detail = 81;
-
 //【キャンバス１】
-let func1 = function(u,v){
-    let x, y, z;
-    x = u;
-    y = v;
-    z = Math.atan(x*y)*2;
-    return [x,y,z];
-}
 
-let func_const = function(u, v){
-    let x, y, z;
-    x = u;
-    y = v;
-    z = -4;
-    return [x, y, z];
-}
+let parameter1 = 0;
+let cube_vts1 = "[[1+parameter1,1,1], [-1,1,1], [-1,-1,1], [1,-1,1], [1,1,-1], [-1,1,-1], [-1,-1,-1], [1,-1,-1]]";
+let cube_index1 = [[0,1,2,3], [4,5,6,7], [0,1,5,4], [1,2,6,5], [2,3,7,6], [3,0,4,7]];
 
+let cube1 = createMeshC("cube_vts1", cube_index1, {color:0xff5500, scale:2, flatshade:true});
 
-let func1x = function(u, v){
-    return v / (u*u*v*v+1) * 2;
-};
+scene1.add(cube1);
 
-let func1y = function(u, v){
-    return u / (u*u*v*v+1) * 2;
+//スライダー操作
+slider1.func = () => {
+    parameter1 = slider1.value;
+    updateObjectC(scene1);
 }
 
 
 
+//【キャンバス２】
 
-let vts1 = parametric_vtsC(func1, [-1.5*PI,1.5*PI], [-1.5*PI,1.5*PI], detail, detail);
-let index_mesh = parametric_indexC(detail, detail);
+//ポイントリスト
+// let points = [];
+// for(let i=0; i<30; i++){
+//     let a1 = 2;
+//     points.push([a1*cos(i*0.5), a1*sin(i*0.5), (i-15)*0.3]);
+// }
 
-
-let x1 = 1.5*PI, y1 = 1.5*PI, d1 = 1;
-
-let vts1b = [ abc1(x1+d1,y1,func1(x1,y1)[2]+func1x(x1,y1)*d1), abc1(x1,y1+d1,func1(x1,y1)[2]+func1y(x1,y1)*d1), abc1(x1-d1,y1,func1(x1,y1)[2]-func1x(x1,y1)*d1), abc1(x1,y1-d1,func1(x1,y1)[2]-func1y(x1,y1)*d1) ];
-
-function abc1(xa, ya, za){
-    let xd, yd, zd, r1;
-    let z1 = func1(x1,y1)[2];
-    xd = xa - x1;
-    yd = ya - y1;
-    zd = za - z1;
-    r1 = sqrt( xd**2 + yd**2 + zd**2)
-    let d2 = 3;
-    return [x1+xd/r1*d2, y1+yd/r1*d2, z1+zd/r1*d2];
-}
-
-let index1b = [[0,1,2],[2,3,0]];
-
-let vts1c = points_vtsC([[x1, y1, func1(x1,y1)[2]]], 0.15);
-let index1c = points_indexC(1);
+// for(let i=0; i<30; i++) for(let j=0; j<3; j++){
+//     points[i][j] = Math.round(points[i][j]*100) / 100
+// }
 
 
-let v1 = [1, 0, func1x(x1,y1)];
-v1 = scaleset(v1, 1.5);
-let vts_xgrad = [[x1, y1, func1(x1,y1)[2]], [x1+v1[0], y1+v1[1], func1(x1,y1)[2]+v1[2]]];
+let points1 = [[2,0,-4.5],[1.76,0.96,-4.2],[1.08,1.68,-3.9],[0.14,1.99,-3.6],[-0.83,1.82,-3.3],[-1.6,1.2,-3],[-1.98,0.28,-2.7],[-1.87,-0.7,-2.4],[-1.31,-1.51,-2.1],[-0.42,-1.96,-1.8],[0.57,-1.92,-1.5],[1.42,-1.41,-1.2],[1.92,-0.56,-0.9],[1.95,0.43,-0.6],[1.51,1.31,-0.3],[0.69,1.88,0],[-0.29,1.98,0.3],[-1.2,1.6,0.6],[-1.82,0.82,0.9],[-1.99,-0.15,1.2],[-1.68,-1.09,1.5],[-0.95,-1.76,1.8],[0.01,-2,2.1],[0.97,-1.75,2.4],[1.69,-1.07,2.7],[2,-0.13,3],[1.81,0.84,3.3],[1.19,1.61,3.6],[0.27,1.98,3.9],[-0.71,1.87,4.2]];
 
-let xgrad_tube_vts = tube_vts1C(vts_xgrad, 0.08, 6);
-let grad_tube_index = tube_indexC(1,6);
-
-let v2 = [0, 1, func1y(x1,y1)];
-v2 = scaleset(v2, 1.5);
-let vts_ygrad = [[x1, y1, func1(x1,y1)[2]], [x1+v2[0], y1+v2[1], func1(x1,y1)[2]+v2[2]]];
-
-let ygrad_tube_vts = tube_vts1C(vts_ygrad, 0.08, 6);
-
-
-
-let list1 = [];
-for(let i=0; i<=10; i++) list1.push(3*PI/10*i - 1.5*PI);
-let utubes_vts = tubeU_vtsC(func1, list1, [-1.5*PI, 1.5*PI], 40, 0.04, 6);
-let vtubes_vts = tubeV_vtsC(func1, list1, [-1.5*PI, 1.5*PI], 40, 0.04, 6);
-let utubes_vts0 = tubeU_vtsC(func_const, list1, [-1.5*PI, 1.5*PI], 1, 0.04, 6);
-let vtubes_vts0 = tubeV_vtsC(func_const, list1, [-1.5*PI, 1.5*PI], 1, 0.04, 6);
-
-let uvtube_index = tube_indexC(40, 6, list1.length);
-let uvtube_index0 = tube_indexC(1, 6, list1.length);
-
-
-
-
-let slice1_vts, slice2_vts;
-slice1_vts = uslice_vtsC(func1, y1, [-1.5*PI, 1.5*PI], 40, -4);
-slice2_vts = vslice_vtsC(func1, x1, [-1.5*PI, 1.5*PI], 40, -4);
-let slice_index = ribbon_indexC(40);
-
-
-
-//スケール
-let sc1 = 0.5;
-
-
-scene1.add( createMeshC("vts1c", index1c, {color:0x00ff00, scale:sc1}) );   //球
-
-scene1.add( createMeshC("xgrad_tube_vts", grad_tube_index, {color:0xff0000, scale:sc1}) );  //傾き
-scene1.add( createMeshC("ygrad_tube_vts", grad_tube_index, {color:0x0000ff, scale:sc1}) );   //傾き
-
-scene1.add( createMeshC(utubes_vts, uvtube_index, {color:0xffffff, scale:sc1}));    //曲面上のグリッド
-scene1.add( createMeshC(vtubes_vts, uvtube_index, {color:0xffffff, scale:sc1}));
-scene1.add( createMeshC(utubes_vts0, uvtube_index0, {color:0xffffff, scale:sc1}));  //床グリッド
-scene1.add( createMeshC(vtubes_vts0, uvtube_index0, {color:0xffffff, scale:sc1}));
-
-scene1.add( createMeshC("slice1_vts", slice_index, {color:0xff6600, scale:sc1}));   //スライス
-scene1.add( createMeshC("slice2_vts", slice_index, {color:0x00aaff, scale:sc1}));   
-
-scene1.add( createMeshC("vts1b", index1b, {color:0x00aa00, scale:sc1, opacity:0.8}) );  //接平面
-scene1.add(createMeshC(vts1, index_mesh, {color:0xffff00, scale:sc1, opacity:0.52}));    //曲面
-
-
-
-
-function scaleset(arg, sc){
-    let d1 = sqrt(arg[0]**2 + arg[1]**2 + arg[2]**2);
-    return [arg[0]/d1*sc, arg[1]/d1*sc, arg[2]/d1*sc];
+let parameter2 = 1;
+function update_points(){
+    return [[2.,0.,-4.5],[2*cos(0.5*parameter2),2*sin(0.5*parameter2),-4.2],[2*cos(1.*parameter2),2*sin(1.*parameter2),-3.9],[2*cos(1.5*parameter2),2*sin(1.5*parameter2),-3.5999999999999996],[2*cos(2.*parameter2),2*sin(2.*parameter2),-3.3],[2*cos(2.5*parameter2),2*sin(2.5*parameter2),-3.],[2*cos(3.*parameter2),2*sin(3.*parameter2),-2.6999999999999997],[2*cos(3.5*parameter2),2*sin(3.5*parameter2),-2.4],[2*cos(4.*parameter2),2*sin(4.*parameter2),-2.1],[2*cos(4.5*parameter2),2*sin(4.5*parameter2),-1.7999999999999998],[2*cos(5.*parameter2),2*sin(5.*parameter2),-1.5],[2*cos(5.5*parameter2),2*sin(5.5*parameter2),-1.2],[2*cos(6.*parameter2),2*sin(6.*parameter2),-0.8999999999999999],[2*cos(6.5*parameter2),2*sin(6.5*parameter2),-0.6],[2*cos(7.*parameter2),2*sin(7.*parameter2),-0.3],[2*cos(7.5*parameter2),2*sin(7.5*parameter2),0.],[2*cos(8.*parameter2),2*sin(8.*parameter2),0.3],[2*cos(8.5*parameter2),2*sin(8.5*parameter2),0.6],[2*cos(9.*parameter2),2*sin(9.*parameter2),0.8999999999999999],[2*cos(9.5*parameter2),2*sin(9.5*parameter2),1.2],[2*cos(10.*parameter2),2*sin(10.*parameter2),1.5],[2*cos(10.5*parameter2),2*sin(10.5*parameter2),1.7999999999999998],[2*cos(11.*parameter2),2*sin(11.*parameter2),2.1],[2*cos(11.5*parameter2),2*sin(11.5*parameter2),2.4],[2*cos(12.*parameter2),2*sin(12.*parameter2),2.6999999999999997],[2*cos(12.5*parameter2),2*sin(12.5*parameter2),3.],[2*cos(13.*parameter2),2*sin(13.*parameter2),3.3],[2*cos(13.5*parameter2),2*sin(13.5*parameter2),3.5999999999999996],[2*cos(14.*parameter2),2*sin(14.*parameter2),3.9],[2*cos(14.5*parameter2),2*sin(14.5*parameter2),4.2],[2*cos(15.*parameter2),2*sin(15.*parameter2),4.5]];
 }
 
 
-slider3.func = () =>{
-   
+let vts2 = points_vtsC(points1, 0.3);
+let index2 = points_indexC(points1.length);
 
-    let sv3 = Math.floor(slider3.value*10) / 10;
-    if(3 * PI * sv3 - 1.5 * PI != x1){
+let points_mesh = createMeshC(vts2, index2, {color:0x00ff55, flatshade:true});
 
-        x1 = 3 * PI * sv3 - 1.5 * PI;
-    
-        //vts1b = [ [x1+d1,y1,func1(x1,y1)[2]+func1x(x1,y1)*d1], [x1,y1+d1,func1(x1,y1)[2]+func1y(x1,y1)*d1], [x1-d1,y1,func1(x1,y1)[2]-func1x(x1,y1)*d1], [x1,y1-d1,func1(x1,y1)[2]-func1y(x1,y1)*d1] ];
-        vts1b = [ abc1(x1+d1,y1,func1(x1,y1)[2]+func1x(x1,y1)*d1), abc1(x1,y1+d1,func1(x1,y1)[2]+func1y(x1,y1)*d1), abc1(x1-d1,y1,func1(x1,y1)[2]-func1x(x1,y1)*d1), abc1(x1,y1-d1,func1(x1,y1)[2]-func1y(x1,y1)*d1) ];
-        vts1c = points_vtsC([[x1, y1, func1(x1,y1)[2]]], 0.15);
+scene2.add( points_mesh );
 
-        v1 = [1, 0, func1x(x1,y1)];
-        v1 = scaleset(v1, 1.5);
-        vts_xgrad = [[x1, y1, func1(x1,y1)[2]], [x1+v1[0], y1+v1[1], func1(x1,y1)[2]+v1[2]]];
-        xgrad_tube_vts = tube_vts1C(vts_xgrad, 0.08, 6);
 
-        v2 = [0, 1, func1y(x1,y1)];
-        v2 = scaleset(v2, 1.5);
-        vts_ygrad = [[x1, y1, func1(x1,y1)[2]], [x1+v2[0], y1+v2[1], func1(x1,y1)[2]+v2[2]]];
-        ygrad_tube_vts = tube_vts1C(vts_ygrad, 0.08, 6);
 
-        
-        slice2_vts = vslice_vtsC(func1, x1, [-1.5*PI, 1.5*PI], 40, -4);
+//【キャンバス３】
 
-        updateObjectC( scene1 );
+let vts3;
+let points2 = update_points();
+vts3 = tube_vts1C(points2, 0.3, 6)
+let index3 = tube_indexC(points2.length-1, 6);
+let tube_mesh = createMeshC("vts3", index3, {color:0xff5500});
+scene3.add(tube_mesh);
 
-    }
+
+slider2.func = () =>{
+    parameter2 = slider2.value;
+    points2 = update_points();
+    vts3 = tube_vts1C(points2, 0.3, 6);
+    updateObjectC( scene3 );
 }
-
-slider4.func = () =>{
-    
-    let sv4 = Math.floor(slider4.value*10) / 10;
-
-    if(y1 != 3 * PI * sv4 - 1.5 * PI){
-
-        y1 = 3 * PI * sv4 - 1.5 * PI;
-
-        vts1b = [ abc1(x1+d1,y1,func1(x1,y1)[2]+func1x(x1,y1)*d1), abc1(x1,y1+d1,func1(x1,y1)[2]+func1y(x1,y1)*d1), abc1(x1-d1,y1,func1(x1,y1)[2]-func1x(x1,y1)*d1), abc1(x1,y1-d1,func1(x1,y1)[2]-func1y(x1,y1)*d1) ];
-        vts1c = points_vtsC([[x1, y1, func1(x1,y1)[2]]], 0.15);
-
-        v1 = [1, 0, func1x(x1,y1)];
-        v1 = scaleset(v1, 1.5);
-        vts_xgrad = [[x1, y1, func1(x1,y1)[2]], [x1+v1[0], y1+v1[1], func1(x1,y1)[2]+v1[2]]];
-        xgrad_tube_vts = tube_vts1C(vts_xgrad, 0.08, 6);
-
-        v2 = [0, 1, func1y(x1,y1)];
-        v2 = scaleset(v2, 1.5);
-        vts_ygrad = [[x1, y1, func1(x1,y1)[2]], [x1+v2[0], y1+v2[1], func1(x1,y1)[2]+v2[2]]];
-        ygrad_tube_vts = tube_vts1C(vts_ygrad, 0.08, 6);
-
-        slice1_vts = uslice_vtsC(func1, y1, [-1.5*PI, 1.5*PI], 40, -4);
-
-        updateObjectC( scene1 );
-
-    }
-
-}
-
-
-
-
-
-
-
-function uslice_vtsC(func, v1, urange, m, soko){
-    let result = [];
-    for(let i=0; i<=m; i++){
-        let t = urange[0] * i / m + urange[1] * (m-i) /m;
-        result.push( func(t, v1) );
-        result.push( [t, v1, soko] );
-    }
-    return result;
-}
-
-function vslice_vtsC(func, u1, vrange, m, soko){
-    let result = [];
-    for(let i=0; i<=m; i++){
-        let t = vrange[0] * i / m + vrange[1] * (m-i) /m;
-        result.push( func(u1, t) );
-        result.push( [u1, t, soko] );
-    }
-    return result;
-}
-
-
-
 
 
 
 //レンダリング
 renderer1.render(scene1, camera1);
+renderer2.render(scene2, camera2);
+renderer3.render(scene3, camera3);
 animateC();
 
 
+/*
+knotplot
 
+スライダー生成　js
+
+negative hop hand
+
+fiber knot 
+
+負のぐうｓ
+
+slider
+*/
