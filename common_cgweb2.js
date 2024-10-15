@@ -91,7 +91,7 @@ document.querySelectorAll("canvas").forEach( canvas => {
 
     canvas.style.touchAction = 'none';     //スクロール禁止
 
-    canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    
+    //canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    //削除
 
     canvas.addEventListener("pointerdown", ()=>{
         for(let i=0; i<scene_group.length; i++){
