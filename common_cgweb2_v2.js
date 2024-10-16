@@ -33,12 +33,12 @@ class SceneC extends THREE.Scene{
         active_renderer = scene_group[active_index].renderer;
         active_scene = scene_group[active_index];
 
-        active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
-        active_canvas.addEventListener('pointermove',(event)=>{
-            mousemovment_updateC(event)
-        });
-        active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-        active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
+        // active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
+        // active_canvas.addEventListener('pointermove',(event)=>{
+        //     mousemovment_updateC(event)
+        // });
+        // active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
+        // active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
 
         //カメラのアスペクト比の設定
@@ -93,15 +93,14 @@ document.querySelectorAll("canvas").forEach( canvas => {
 
     //canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    //削除
 
+
     canvas.addEventListener("pointerdown", ()=>{
+
+        mouseIsPressed = true;
+
+        //activeキャンバスを切り替える
         for(let i=0; i<scene_group.length; i++){
             if(canvas.id==scene_group[i].renderer.domElement.id && active_index!=i){
-
-                // active_canvas.removeEventListener("pointerdown", press_updateC); //削除
-                // active_canvas.removeEventListener("pointermove", mousemovment_updateC);  //削除
-                // active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-                // active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
-
 
                 active_index = i;
                 active_canvas = scene_group[i].renderer.domElement;
@@ -112,21 +111,18 @@ document.querySelectorAll("canvas").forEach( canvas => {
                 angularvelocity1.set(0, 0, 0);
                 pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
                 mousemovementX = 0, mousemovementY = 0;
-                mouseIsPressed = true;
-
-                // active_canvas.addEventListener('pointerdown',()=>{press_updateC();});    //削除
-                // active_canvas.addEventListener('pointermove',(event)=>{  //削除
-                //     mousemovment_updateC(event)
-                // });
-                // active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-                // active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
-
+                
                 break;
             }
         }
     });
 
-    
+    canvas.addEventListener("pointermove", (event)=>{
+        mousemovementX = event.movementX;
+        mousemovementY = event.movementY;
+    });
+
+    //キャンバスリサイズ
     canvas.addEventListener('mousemove',(event)=>{
 
         const size_adjust_d = 20;   //キャンバスリサイズ範囲
@@ -146,10 +142,13 @@ document.querySelectorAll("canvas").forEach( canvas => {
     
     });
 
+    //キャンバスリサイズ
     canvas.addEventListener('mouseleave',()=>{
         if(!mouseIsPressed)  document.body.style.cursor = 'default';
     });
     
+    canvas.addEventListener("touchmove", handleTouchMoveC);
+    canvas.addEventListener("touchend", handleTouchEndC);
 
 });
 
@@ -161,6 +160,7 @@ function mousemovment_updateC(event){
     mousemovementX = event.movementX;
     mousemovementY = event.movementY;
 }
+
 function press_updateC(){
     mouseIsPressed = true;
 }
