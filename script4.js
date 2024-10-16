@@ -89,14 +89,14 @@ renderer8.setClearColor(0xeeeeee, 1);
 
 
 //カメラ
-let camera1 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
-let camera2 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]});
-let camera3 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]});
-let camera4 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]});
-let camera5 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]});
-let camera6 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]});
-let camera7 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]});
-let camera8 = createPerspectiveCameraC({fov:40, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]});
+let camera1 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
+let camera2 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+let camera3 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+let camera4 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+let camera5 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+let camera6 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+let camera7 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+let camera8 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
 
 //シーン
 let scene1 = new SceneC(renderer1, camera1);
@@ -112,7 +112,7 @@ let scene8 = new SceneC(renderer8, camera8);
 //ライト
 let lighta1 = new THREE.AmbientLight(0xffffff, 0.4) //環境ライト
 let lightd1 = new THREE.DirectionalLight(0xffffff, 0.7);    //指向性ライト
-lightd1.position.set( 0, -1, 1 )
+lightd1.position.set( 0, 1, 1 )
 scene1.add( lighta1.clone() );  //シーンにライトを追加　同じライトを複数のキャンバスに追加する場合 .clone を付ける
 scene1.add( lightd1.clone() );
 
@@ -138,6 +138,28 @@ scene8.add( lighta1.clone() );
 scene8.add( lightd1.clone() );
 
 
+
+let visible6b= true;
+let opacity6b = 0.5;
+let color6b = "0xffff00";
+
+let check1 = document.getElementById("check1");
+if(check1!=undefined){
+    check1.addEventListener("input",()=>{
+        
+        if(check1.checked){
+            visible6b = false;
+            opacity6b = 1;
+            color6b = "0x3300ff";
+        }else{
+            visible6b = true;
+            opacity6b = 0.5;
+            color6b = "0xffff00";
+        }
+
+        updateObjectC( scene6 );
+    })
+}
 
 
 //注目する座標
@@ -240,17 +262,16 @@ scene6.add( createMeshC("pointer_sphere_vts", pointer_sphere_index, {color:0x00f
 scene6.add( createMeshC("redtube_vts", tube_index, {color:0xff0000, scale:sc1}) );  //傾き
 scene6.add( createMeshC("bluetube_vts", tube_index, {color:0x0000ff, scale:sc1}) );   //傾き
 
-scene6.add( createMeshC(utubes_vts, uvtube_index, {color:0xffffff, scale:sc1}));    //曲面上のグリッド
-scene6.add( createMeshC(vtubes_vts, uvtube_index, {color:0xffffff, scale:sc1}));
-scene6.add( createMeshC(utubes_vts0, uvtube_index0, {color:0xffffff, scale:sc1}));  //床グリッド
-scene6.add( createMeshC(vtubes_vts0, uvtube_index0, {color:0xffffff, scale:sc1}));
+scene6.add( createMeshC(utubes_vts, uvtube_index, {color:0xffffff, scale:sc1, visible:"visible6b"}));    //曲面上のグリッド
+scene6.add( createMeshC(vtubes_vts, uvtube_index, {color:0xffffff, scale:sc1, visible:"visible6b"}));
+scene6.add( createMeshC(utubes_vts0, uvtube_index0, {color:0xffffff, scale:sc1, visible:"visible6b"}));  //床グリッド
+scene6.add( createMeshC(vtubes_vts0, uvtube_index0, {color:0xffffff, scale:sc1, visible:"visible6b"}));
 
-scene6.add( createMeshC("slice1_vts", slice_index, {color:0xff6600, scale:sc1}));   //スライス
-scene6.add( createMeshC("slice2_vts", slice_index, {color:0x00aaff, scale:sc1}));   
+scene6.add( createMeshC("slice1_vts", slice_index, {color:0xff6600, scale:sc1, visible:"visible6b"}));   //スライス
+scene6.add( createMeshC("slice2_vts", slice_index, {color:0x00aaff, scale:sc1, visible:"visible6b"}));   
 
-scene6.add( createMeshC("setsuheimen_vts", setsuheimen_index, {color:0x00aa00, scale:sc1, opacity:0.8}) );  //接平面
-scene6.add(createMeshC(main_mesh_vts, main_mesh_mesh, {color:0xffff00, scale:sc1, opacity:0.52}));    //曲面
-
+scene6.add( createMeshC("setsuheimen_vts", setsuheimen_index, {color:0x00aa00, scale:sc1, opacity:0.8}) );  //接平面 
+scene6.add( createMeshC(main_mesh_vts, main_mesh_mesh, {color:0xffff00, scale:sc1, opacity:"opacity6b"}));    //曲面
 
 
 function scaleset(arg, sc){
@@ -360,7 +381,7 @@ function zurashi_vtsC(arg, dx, dy, dz){
 
 //共通
 let tubecolor10 = 0xffffff;
-let tubecolor11 = 0x666666;
+let tubecolor11 = 0x555555;
 
 
 
@@ -558,6 +579,10 @@ scene5.add( createMeshC("main_mesh_vts_5", main_mesh_index_5, {color:0x0066ff, s
 //キャンバス7
 
 
+let xaxis = tube_vts1C([[1,0,0],[-1,0,0]], 0.015, 6);
+let yaxis = tube_vts1C([[0,1,0],[0,-1,0]], 0.015, 6);
+
+
 let index_mesh = parametric_indexC(detail1, detail1);
 let index6b = tube_indexC(1, 6);
 
@@ -572,22 +597,29 @@ let func7 = function(u, v){
 let vts7 = parametric_vtsC(func7, [-1, 1], [-1, 1], detail1, detail1);
 let surf7 = createMeshC(vts7, index_mesh, {color:0x00aa00, scale:2.2, flatshade:true});
 
-let points;
-let parameter7 = 0
+let points,points2;
+let parameter7 = PI * 0.25;
 points = [[cos(parameter7), sin(parameter7), sin(2*parameter7)/2], [cos(parameter7+PI), sin(parameter7+PI), sin(2*parameter7)/2]];
+points2 = [[cos(parameter7+PI/2), sin(parameter7+PI/2), sin(2*parameter7)/2], [cos(parameter7+PI+PI/2), sin(parameter7+PI+PI/2), sin(2*parameter7)/2]];
 
 let vts7b = tube_vts1C(points, 0.02, 6);
 let index7b = tube_indexC(1, 6);
 let surf7b = createMeshC("vts7b", index7b, {color:0xffff00, scale:2.2});
+let vts7b2 = tube_vts1C(points2, 0.02, 6);
+let surf7b2 = createMeshC("vts7b2", index7b, {color:0xffff00, scale:2.2});
 
 scene7.add(surf7);
 scene7.add(surf7b);
-
+scene7.add(surf7b2);
+scene7.add( createMeshC(xaxis, index7b, {scale:2.2, color:0xff0000}) );
+scene7.add( createMeshC(yaxis, index7b, {scale:2.2, color:0x0000ff}) );
 
 slider1.func = () =>{
     parameter7 = PI * slider1.value;
     points = [[cos(parameter7), sin(parameter7), sin(2*parameter7)/2], [cos(parameter7+PI), sin(parameter7+PI), sin(2*parameter7)/2]];
     vts7b = tube_vts1C(points, 0.02, 6);
+    points2 = [[cos(parameter7+PI/2), sin(parameter7+PI/2), sin(2*parameter7)/2], [cos(parameter7+PI+PI/2), sin(parameter7+PI+PI/2), sin(2*parameter7)/2]];
+    vts7b2 = tube_vts1C(points2, 0.02, 6);
     updateObjectC( scene7 );
 }
 
@@ -595,7 +627,7 @@ slider1.func = () =>{
 
 
 //キャンバス８
-let parameter8 = 0.2;
+let parameter8 = PI * 0 * 3;
 
 let func8 = function(r, t){
     let x, y, z;

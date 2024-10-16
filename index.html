@@ -118,9 +118,12 @@
       slider4 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
     </script>
 
+    <input type="checkbox" id="check1">
+    <label for="check1">スタイル２</label>
 
 
     <h5> \( z = \dfrac{xy}{x^2+y^2} \) </h5>
+    <p>x軸：赤, y軸：青</p>
 
     <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
     <canvas id="canvas7" style="margin-left:-8px"></canvas> 
@@ -135,7 +138,7 @@
 
     <script>
       let slider1 = {};
-      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.25});
     </script>
 
 
@@ -155,7 +158,7 @@
 
     <script>
       let slider2 = {};
-      slider2 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      slider2 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0});
     </script>
 
 
