@@ -118,8 +118,7 @@ document.querySelectorAll("canvas").forEach( canvas => {
                 break;
             }
         }
-
-        console.log(abc);
+        
     });
 
     //画面上でマウスまたは指をドラッグしたときマウスの移動量を更新する
