@@ -156,15 +156,6 @@ document.querySelectorAll("canvas").forEach( canvas => {
 document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
 
 
-function mousemovment_updateC(event){
-    mousemovementX = event.movementX;
-    mousemovementY = event.movementY;
-}
-
-function press_updateC(){
-    mouseIsPressed = true;
-}
-
 
 //タッチデバイスを指でなぞったときの処理
 function handleTouchMoveC(event){
@@ -254,21 +245,6 @@ document.addEventListener('wheel', function(event) {
 
 //キャンバス上で操作しているか否かの切り替え
 document.addEventListener('mousemove', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
-    if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
-        canvasover = true;  //キャンバス操作オン
-        document.body.style.overflow = 'hidden';    //スクロールを無効にする
-        document.body.style.backgroundColor = 'lightgreen';
-    }else{   //クリック位置（移動先）がキャンバス要素でないとき
-        canvasover = false;  //キャンバス操作オフ
-        document.body.style.overflow = '';  //スクロールを有効にする
-        document.body.style.backgroundColor = 'white';
-    }
-})
-
-
-
-//キャンバス上で操作しているか否かの切り替え
-document.addEventListener('pointerdown', (event)=>{   //第1引数　'click'：ページをクリックすると発火, 'mousemove'：異なる要素にマウスが移動すると発火
     if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
         canvasover = true;  //キャンバス操作オン
         document.body.style.overflow = 'hidden';    //スクロールを無効にする
