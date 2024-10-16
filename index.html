@@ -10,66 +10,162 @@
     <!--自作スライダーライブラリ-->
     <script src="myslider.js"></script>
 
+    <!--MathJX　数式を表記するためのライブラリ-->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <h3>複数キャンバス　v1</h3>
 
+    <h3>微分積分演習Ⅱ　2変数関数の曲面</h3>
 
-    <p>キャンバス１</p>
+    <h5> \( z = x \, y \) </h5>
 
-    <!--キャンバス要素の生成-->
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
     <canvas id="canvas1" style="margin-left:-8px"></canvas> 
     <!--キャンバスのサイズ指定-->
     <script>  
       let canvas1 = document.getElementById('canvas1'); 
-      let size1 = Math.min(400, window.innerWidth * 0.85);  //画面横幅より広くなるのを回避するためにmin関数を使用
-      let size2 = size1 * 0.8;
+      var size1 = Math.min(500, window.innerWidth*0.85);  //画面横幅より広くなるのを回避するためにmin関数を使用
       canvas1.width = size1 * window.devicePixelRatio;  //画素数
-      canvas1.height = size2 * window.devicePixelRatio;
+      canvas1.height = size1 * window.devicePixelRatio * 0.9;
       canvas1.style.width = size1;  //サイズ
-      canvas1.style.height = size2;
+      canvas1.style.height = size1 * 0.9;
     </script>
 
 
-    <p>キャンバス２</p>
+
+
+    <h5> \( z = x^2 - y^2 \) </h5>
+
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
     <canvas id="canvas2" style="margin-left:-8px"></canvas> 
+    <!--キャンバスのサイズ指定-->
     <script>  
       let canvas2 = document.getElementById('canvas2'); 
-      let size3 = Math.min(350, window.innerWidth * 0.85);
-      canvas2.width = size3 * window.devicePixelRatio; 
-      canvas2.height = size3 * window.devicePixelRatio;
-      canvas2.style.width = size3;
-      canvas2.style.height = size3;
+      canvas2.width = size1 * window.devicePixelRatio;  //画素数
+      canvas2.height = size1 * window.devicePixelRatio * 0.9;
+      canvas2.style.width = size1;  //サイズ
+      canvas2.style.height = size1 * 0.9;
     </script>
 
 
 
-    <p>キャンバス３</p>
+
+    <h5> \( z = x(x^2-1) - y^2 \) </h5>
+
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
+    <canvas id="canvas5" style="margin-left:-8px"></canvas> 
+    <!--キャンバスのサイズ指定-->
+    <script>  
+      let canvas5 = document.getElementById('canvas5'); 
+      canvas5.width = size1 * window.devicePixelRatio;  //画素数
+      canvas5.height = size1 * window.devicePixelRatio * 0.9;
+      canvas5.style.width = size1;  //サイズ
+      canvas5.style.height = size1 * 0.9;
+    </script>
+
+
+
+
+    <h5> \( z = \mathrm{Tan}^{-1}\dfrac{y}{x} \) </h5>
+
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
     <canvas id="canvas3" style="margin-left:-8px"></canvas> 
+    <!--キャンバスのサイズ指定-->
     <script>  
       let canvas3 = document.getElementById('canvas3'); 
-      canvas3.width = size3 * window.devicePixelRatio; 
-      canvas3.height = size3 * window.devicePixelRatio;
-      canvas3.style.width = size3;
-      canvas3.style.height = size3;
+      canvas3.width = size1 * window.devicePixelRatio;  //画素数
+      canvas3.height = size1 * window.devicePixelRatio * 0.9;
+      canvas3.style.width = size1;  //サイズ
+      canvas3.style.height = size1 * 0.9;
     </script>
 
 
 
-    <!--スライダーの追加-->
+    <h5> \( z = \dfrac{x}{\sqrt{x^2 + y^2}} \) </h5>
+
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
+    <canvas id="canvas4" style="margin-left:-8px"></canvas> 
+    <!--キャンバスのサイズ指定-->
+    <script>  
+      let canvas4 = document.getElementById('canvas4'); 
+      canvas4.width = size1 * window.devicePixelRatio;  //画素数
+      canvas4.height = size1 * window.devicePixelRatio * 0.9;
+      canvas4.style.width = size1;  //サイズ
+      canvas4.style.height = size1 * 0.9;
+    </script>
+
+
+
+
+
+
+
+    <h5> \( z = \mathrm{Tan}^{-1} x \, y \) </h5>
+
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
+    <canvas id="canvas6" style="margin-left:-8px"></canvas> 
+    <!--キャンバスのサイズ指定-->
+    <script>  
+      let canvas6 = document.getElementById('canvas6'); 
+      canvas6.width = size1 * window.devicePixelRatio;  //画素数
+      canvas6.height = size1 * window.devicePixelRatio * 0.9;
+      canvas6.style.width = size1;  //サイズ
+      canvas6.style.height = size1 * 0.9;
+    </script>
+
     <script>
-      let slider1 = {}; //スライダーを削除する場合この行は削除しない
-      slider1 = new Slider1d({width:Math.min(400, window.innerWidth),bar_width:Math.min(400*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.5})
+      let slider3 = {}, slider4 = {}; //スライダーを削除する場合この行は削除しない
+      slider3 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      slider4 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
     </script>
 
 
 
-    <!--three.jsライブラリ-->
+    <h5> \( z = \dfrac{xy}{x^2+y^2} \) </h5>
+
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
+    <canvas id="canvas7" style="margin-left:-8px"></canvas> 
+    <!--キャンバスのサイズ指定-->
+    <script>  
+      let canvas7 = document.getElementById('canvas7'); 
+      canvas7.width = size1 * window.devicePixelRatio;  //画素数
+      canvas7.height = size1 * window.devicePixelRatio * 0.9;
+      canvas7.style.width = size1;  //サイズ
+      canvas7.style.height = size1 * 0.9;
+    </script>
+
+    <script>
+      let slider1 = {};
+      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+    </script>
+
+
+
+    <h5> \( z = \dfrac{\mathrm{sin} \, 2\theta}{2} \) </h5>
+
+    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
+    <canvas id="canvas8" style="margin-left:-8px"></canvas> 
+    <!--キャンバスのサイズ指定-->
+    <script>  
+      let canvas8 = document.getElementById('canvas8'); 
+      canvas8.width = size1 * window.devicePixelRatio;  //画素数
+      canvas8.height = size1 * window.devicePixelRatio * 0.9;
+      canvas8.style.width = size1;  //サイズ
+      canvas8.style.height = size1 * 0.9;
+    </script>
+
+    <script>
+      let slider2 = {};
+      slider2 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+    </script>
+
+
+    <!--three.jsライブラリ　CDNを使ってインターネット経由でライブラリをインポートする-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
 
 
-    <!--メインソース-->
-    <script src="common_cgweb2.js"></script> 
-    <script src='script1.js'></script> 
+    <!--プログラム-->
+    <script src="common_cgweb2_v2.js"></script> <!--three.jsの機能を扱いやすくするための自作ライブラリ-->
+    <script src='script4.js'></script>  <!--表示するオブジェクトやレンダリングの設定、スライダー操作時の処理について記述したファイル-->
 
 
   </body>
