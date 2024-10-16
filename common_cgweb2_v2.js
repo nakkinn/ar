@@ -1,4 +1,4 @@
-//ver2
+//ver3　最終更新日 2024/10/16
 
 const PI = Math.PI;
 function sin(a1){return Math.sin(a1)};
@@ -20,25 +20,12 @@ class SceneC extends THREE.Scene{
         this.camera = camera;
         scene_group.push( this );
 
-        if(active_index>=0){
-            // active_canvas.removeEventListener("pointerdown", press_updateC);
-            // active_canvas.removeEventListener("pointermove", mousemovment_updateC);
-            // active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-            // active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
-        }
 
         active_index = scene_group.length - 1;
         active_canvas = scene_group[active_index].renderer.domElement;
         active_camera = scene_group[active_index].camera;
         active_renderer = scene_group[active_index].renderer;
         active_scene = scene_group[active_index];
-
-        // active_canvas.addEventListener('pointerdown',()=>{press_updateC();});
-        // active_canvas.addEventListener('pointermove',(event)=>{
-        //     mousemovment_updateC(event)
-        // });
-        // active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-        // active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
 
         //カメラのアスペクト比の設定
@@ -91,8 +78,7 @@ document.querySelectorAll("canvas").forEach( canvas => {
 
     canvas.style.touchAction = 'none';     //スクロール禁止
 
-    //canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    //削除
-
+    canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});
 
     canvas.addEventListener("pointerdown", ()=>{
 
@@ -242,6 +228,7 @@ document.addEventListener('wheel', function(event) {
 });
 
 
+//PC専用の操作
 if(! ("ontouchstart" in window)){
 
     //キャンバス上で操作しているか否かの切り替え
@@ -249,54 +236,57 @@ if(! ("ontouchstart" in window)){
         if(event.target.tagName.toLowerCase()=='canvas'){   //クリック位置（移動先）がキャンバス要素のとき
             canvasover = true;  //キャンバス操作オン
             document.body.style.overflow = 'hidden';    //スクロールを無効にする
-            document.body.style.backgroundColor = 'lightgreen';
         }else{   //クリック位置（移動先）がキャンバス要素でないとき
             canvasover = false;  //キャンバス操作オフ
             document.body.style.overflow = '';  //スクロールを有効にする
-            document.body.style.backgroundColor = 'white';
         }
     })
 
-}
+    //マウスプレス状態かつカーソルの種類が'nwse-resize'（左上-右下方向のリサイズ記号）のときキャンバスサイズを調整
+    document.addEventListener('mousemove',(event)=>{
+        
+        if(document.body.style.cursor=='nwse-resize' && mouseIsPressed){
 
+            let px = Math.min(event.x, window.innerWidth);
+            let py = event.y;
+            let rect1 = active_canvas.getBoundingClientRect();
+            active_canvas.width = (px - rect1.left) * window.devicePixelRatio;
+            active_canvas.style.width = (px - rect1.left);
+            active_canvas.height = (py - rect1.top) * window.devicePixelRatio;
+            active_canvas.style.height = (py - rect1.top);
 
-//マウスプレス状態かつカーソルの種類が'nwse-resize'（左上-右下方向のリサイズ記号）のときキャンバスサイズを調整
-document.addEventListener('mousemove',(event)=>{
-    
-    if(document.body.style.cursor=='nwse-resize' && mouseIsPressed){
+            active_camera.aspect = active_canvas.width / active_canvas.height;
 
-        let px = Math.min(event.x, window.innerWidth);
-        let py = event.y;
-        let rect1 = active_canvas.getBoundingClientRect();
-        active_canvas.width = (px - rect1.left) * window.devicePixelRatio;
-        active_canvas.style.width = (px - rect1.left);
-        active_canvas.height = (py - rect1.top) * window.devicePixelRatio;
-        active_canvas.style.height = (py - rect1.top);
-
-        active_camera.aspect = active_canvas.width / active_canvas.height;
-
-        if(active_camera.type=='OrthographicCamera'){
-            let range = Math.min(active_camera.right, active_camera.top);
-            if(active_canvas.width > active_canvas.height){
-                active_camera.left = - range * active_camera.aspect;
-                active_camera.right = range * active_camera.aspect;
-                active_camera.top = range;
-                active_camera.bottom = -range;
-            }else{
-                active_camera.left = - range;
-                active_camera.right = range;
-                active_camera.top = range / active_camera.aspect;
-                active_camera.bottom = - range / active_camera.aspect;
+            if(active_camera.type=='OrthographicCamera'){
+                let range = Math.min(active_camera.right, active_camera.top);
+                if(active_canvas.width > active_canvas.height){
+                    active_camera.left = - range * active_camera.aspect;
+                    active_camera.right = range * active_camera.aspect;
+                    active_camera.top = range;
+                    active_camera.bottom = -range;
+                }else{
+                    active_camera.left = - range;
+                    active_camera.right = range;
+                    active_camera.top = range / active_camera.aspect;
+                    active_camera.bottom = - range / active_camera.aspect;
+                }
             }
+
+            active_camera.updateProjectionMatrix();
+
+            active_renderer.setSize(active_canvas.width, active_canvas.height);
         }
 
-        active_camera.updateProjectionMatrix();
+    });
 
-        active_renderer.setSize(active_canvas.width, active_canvas.height);
-    }
 
-});
+    //マウスボタンをはなしたときカーソルをデフォルトのものにする
+    document.addEventListener('mouseup',()=>{
+        document.body.style.cursor = 'default';
+    });
 
+
+}
 
 
 
@@ -324,6 +314,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+//#############################################################
+//　カメラ　・　オブジェクト
+//#############################################################
 
 
 function createPerspectiveCameraC(optiona){
@@ -360,14 +354,6 @@ function createOrthographicCameraC(optiona){
     newcamera.updateProjectionMatrix();
     return newcamera;
 }
-
-
-
-
-//マウスボタンをはなしたときカーソルをデフォルトのものにする
-document.addEventListener('mouseup',()=>{
-    document.body.style.cursor = 'default';
-});
 
 
 
@@ -1054,7 +1040,7 @@ function updateObjectC(scene){
 
             //object.geometry.getAttribute('position').needsUpdate = true;
             object.geometry.computeVertexNormals(); //頂点の法線ベクトルの更新
-
+            object.geometry.computeBoundingSphere();
         }
 
         if(object.className == 'ballC'){
@@ -1100,12 +1086,6 @@ function updateObjectC(scene){
     for(let i=0; i<scene_group.length; i++){
         if(scene_group[i].renderer.domElement.id == active_canvas.id && active_index!=i){
 
-            // active_canvas.removeEventListener("pointerdown", press_updateC); //削除
-            // active_canvas.removeEventListener("pointermove", mousemovment_updateC); //削除
-            //active_canvas.removeEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-            //active_canvas.removeEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
-
-
             active_index = i;
             active_canvas = scene_group[i].renderer.domElement;
             active_camera = scene_group[i].camera;
@@ -1116,13 +1096,6 @@ function updateObjectC(scene){
             pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
             mousemovementX = 0, mousemovementY = 0;
             mouseIsPressed = true;
-
-            // active_canvas.addEventListener('pointerdown',()=>{press_updateC();}); //削除
-            // active_canvas.addEventListener('pointermove',(event)=>{ //削除
-            //     mousemovment_updateC(event)
-            // });
-            //active_canvas.addEventListener('touchmove', handleTouchMoveC); //タッチデバイスをなぞったときhandleTouchMoveを発火
-            //active_canvas.addEventListener('touchend', handleTouchEndC);   //タッチデバイスから指を離したときhandleTouchEndを発火
 
             break;
         
