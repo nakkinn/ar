@@ -16,6 +16,8 @@
 
     <h3>微分積分演習Ⅱ　2変数関数の曲面 v6</h3>
 
+    <p id="text_debug"></p>
+
     <h5> \( z = x \, y \) </h5>
 
     <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
@@ -95,10 +97,6 @@
 
 
 
-
-
-
-
     <h5> \( z = \mathrm{Tan}^{-1} x \, y \) </h5>
 
     <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
@@ -113,9 +111,9 @@
     </script>
 
     <script>
-      let slider3 = {}, slider4 = {}; //スライダーを削除する場合この行は削除しない
-      slider3 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
-      slider4 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      let slider1 = {}, slider2 = {}; //スライダーを削除する場合この行は削除しない
+      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      slider2 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
     </script>
 
     <input type="checkbox" id="check1">
@@ -137,8 +135,8 @@
     </script>
 
     <script>
-      let slider1 = {};
-      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.25});
+      let slider3 = {};
+      slider3 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0.25});
     </script>
 
 
@@ -157,8 +155,8 @@
     </script>
 
     <script>
-      let slider2 = {};
-      slider2 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0});
+      let slider4 = {};
+      slider4 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0});
     </script>
 
 
