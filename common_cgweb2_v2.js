@@ -1,34 +1,69 @@
 //ver3　最終更新日 2024/10/16
 
+
+//#############################################################
+//　数学の関数・定数
+//#############################################################
+
 const PI = Math.PI;
+
+function sqrt(a1){return Math.sqrt(a1)};
 function sin(a1){return Math.sin(a1)};
 function cos(a1){return Math.cos(a1)};
 function tan(a1){return Math.tan(a1)};
-function sqrt(a1){return Math.sqrt(a1)};
+function acos(a1){return Math.acos(a1)};
+function asin(a1){return Math.asin(a1)};
+function atan(a1){return Math.atan(a1)};
+function exp(a1){return Math.exp(a1)};
 
 
 
-let active_index = -1, active_canvas, active_camera, active_renderer, active_scene;
+//#############################################################
+//　グローバル変数
+//#############################################################
+
+let scene_group = [];   //追加したシーンをまとめたもの
+let active_index = -1;  //何番目のシーンを操作中か
+let active_scene;   //操作中のシーン
+let active_canvas;  //操作中のシーンのキャンバス
+let active_camera;  //操作中のシーンのカメラ
+let active_renderer;    //操作中のシーンのレンダラー
+
+let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
+let twofinger = false;  //タッチパッドで2本指操作しているときtrue（このとき回転軸を維持する）
+let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
+let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標　1フレーム前タッチされていなければ-1とする
+let mousemovementX=0, mousemovementY=0; //マウス移動量
+
+const random_vector1 = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();  //大きさが1のランダムな方向を向いたベクトル
+let angularvelocity1 = new THREE.Vector3(0, 0, 0);  //オブジェクトの回転軸　大きさが回転速度に比例する
+
+let myfunclist = [];    //毎フレーム行う処理
 
 
+
+//#############################################################
+//　クラス
+//#############################################################
+
+//three.jsのSceneクラスを拡張したもの　
 class SceneC extends THREE.Scene{
 
-    constructor(renderer, camera){
+    constructor(renderer, camera){  //レンダラーとカメラをセットにして生成する
 
         super();
-        this.renderer = renderer;
+        this.renderer = renderer;   
         this.camera = camera;
-        scene_group.push( this );
+        scene_group.push( this );   //scene_groupにこのシーンを追加
 
-
+        //active_index, scene, canvas, camera, rendererをこのシーンのものに更新する
         active_index = scene_group.length - 1;
         active_canvas = scene_group[active_index].renderer.domElement;
         active_camera = scene_group[active_index].camera;
         active_renderer = scene_group[active_index].renderer;
         active_scene = scene_group[active_index];
 
-
-        //カメラのアスペクト比の設定
+        //カメラのアスペクト比をキャンバスのサイズを使って設定
         let canvas = this.renderer.domElement;
         if(camera.type == "PerspectiveCamera"){
             camera.aspect = canvas.width / canvas.height;
@@ -49,37 +84,19 @@ class SceneC extends THREE.Scene{
 }
 
 
+
 //#############################################################
 //入力や操作
 //#############################################################
 
-let canvasover = false; //trueのときマウスホイール（2本指スライド）でグラフィックを拡大縮小、falseのときページスクロール
-let twofinger = false;  //タッチパッドで2本指操作しているときtrue, そのとき回転軸を維持する
-let mouseIsPressed = false; //マウスが押されている（タップ）状態か否か
-let pmouseX1=-1, pmouseY1=-1, pmouseX2=-1, pmouseY2=-1; //1フレーム前のマウス（タッチ）座標　1フレーム前タッチされていなければ-1とする
-let mousemovementX=0, mousemovementY=0; //マウス移動量
-
-let rotationX=0, rotationY=0, rotationZ=0;
-let dummymesh = new THREE.Mesh();
-
-
-
-const random_vector1 = new THREE.Vector3(Math.random(), Math.random(), Math.random()).normalize();
-
-let angularvelocity1 = new THREE.Vector3(0, 0, 0);  //オブジェクトの回転軸　大きさが回転速度に比例する
-
-let myfunclist = [];    //animate関数内で行う処理
-
-let scene_group = [];
-
-
-
+//全てのキャンバスに付与するイベントリスナ
 document.querySelectorAll("canvas").forEach( canvas => {
 
-    canvas.style.touchAction = 'none';     //スクロール禁止
+    canvas.style.touchAction = 'none';     //キャンバス上ではタッチによるスクロール禁止
 
-    canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});
+    canvas.addEventListener('touchmove',(event)=>{event.preventDefault();},{passive:false});    //画面左端をスワイプ時にブラウザバックするのを禁止する
 
+    //画面をマウスプレスまたはタップしたときにmouseIsPressedをtrueにし、必要ならばactive要素を切り替える、回転につかう変数を初期化する
     canvas.addEventListener("pointerdown", ()=>{
 
         mouseIsPressed = true;
@@ -94,21 +111,22 @@ document.querySelectorAll("canvas").forEach( canvas => {
                 active_renderer = scene_group[i].renderer;
                 active_scene = scene_group[i];
 
-                angularvelocity1.set(0, 0, 0);
-                pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1;
-                mousemovementX = 0, mousemovementY = 0;
+                angularvelocity1.set(0, 0, 0);  //回転ベクトルを初期化
+                pmouseX1 = -1, pmouseY1 = -1, pmouseX2 = -1, pmouseY2 = -1; //1フレーム前のマウス座標を初期化
+                mousemovementX = 0, mousemovementY = 0; //マウスの移動量を初期化
                 
                 break;
             }
         }
     });
 
+    //画面上でマウスまたは指をドラッグしたときマウスの移動量を更新する
     canvas.addEventListener("pointermove", (event)=>{
         mousemovementX = event.movementX;
         mousemovementY = event.movementY;
     });
 
-    //キャンバスリサイズ
+    //キャンバス右下付近にマウスがのったときにカーソルの種類を変更する
     canvas.addEventListener('mousemove',(event)=>{
 
         const size_adjust_d = 20;   //キャンバスリサイズ範囲
@@ -128,86 +146,76 @@ document.querySelectorAll("canvas").forEach( canvas => {
     
     });
 
-    //キャンバスリサイズ
+    //マウスボタンを離したときカーソルをデフォルトのものに戻す
     canvas.addEventListener('mouseleave',()=>{
         if(!mouseIsPressed)  document.body.style.cursor = 'default';
     });
     
-    canvas.addEventListener("touchmove", handleTouchMoveC);
-    canvas.addEventListener("touchend", handleTouchEndC);
+    //タッチ操作で画面をドラッグしたときの処理
+    canvas.addEventListener("touchmove", (event)=>{
+        if(event.touches.length==2){    //指2本で触れている
+
+            twofinger = true;
+    
+            if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき、1フレーム前の2点の座標を更新
+    
+                pmouseX1 = event.touches[0].clientX;
+                pmouseY1 = event.touches[0].clientY;
+                pmouseX2 = event.touches[1].clientX;
+                pmouseY2 = event.touches[1].clientY;
+    
+            }else{  //1フレーム前も2本指のとき、1フレーム前と現在の2点分のタッチ座標を使ってズーム値を変更し、1フレーム前の座標を更新
+    
+                let mx1, my1, mx2, my2;
+                mx1 = event.touches[0].clientX;
+                my1 = event.touches[0].clientY;
+                mx2 = event.touches[1].clientX;
+                my2 = event.touches[1].clientY;
+    
+                let d1, d2; 
+                d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
+                d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
+    
+                active_camera.zoom += ( d2 / d1 - 1) * 1; //最後の定数を大きくすると変化が大きくなる
+                
+                active_camera.updateProjectionMatrix();
+    
+                pmouseX1 = mx1;
+                pmouseY1 = my1;
+                pmouseX2 = mx2;
+                pmouseY2 = my2;
+    
+            }
+    
+        }else if(event.touches.length==1){  //指1本で触れている、1フレーム前の座標を1点分のみ更新
+    
+            if(pmouseX1==-1 || pmouseY1==-1){
+                pmouseX1 = event.touches[0].clientX;
+                pmouseY1 = event.touches[0].clientY;
+            }else{
+                mousemovementX = event.touches[0].clientX - pmouseX1;
+                mousemovementY = event.touches[0].clientY - pmouseY1;
+                pmouseX1 = event.touches[0].clientX;
+                pmouseY1 = event.touches[0].clientY;
+            }
+    
+        }
+    });
+
+    //画面から指を離したときの処理
+    canvas.addEventListener("touchend", ()=>{
+        pmouseX1 = -1;  //直前フレームのタッチ座標を-1にする
+        pmouseY1 = -1;
+        pmouseX2 = -1;
+        pmouseY2 = -1;
+        twofinger = false;
+    });
 
 });
 
 
+//（どこでも）マウスボタンまたは指を離したらmouseIsPressedをfalseにする
 document.addEventListener('pointerup',()=>{mouseIsPressed = false;});
-
-
-
-//タッチデバイスを指でなぞったときの処理
-function handleTouchMoveC(event){
-
-    if(event.touches.length==2){    //指2本で触れている
-
-        twofinger = true;
-
-        if(pmouseX1==-1 || pmouseY1==-1 || pmouseX2==-1 || pmouseY2==-1){   //1フレーム前は2本指でないとき、1フレーム前の2点の座標を更新
-
-            pmouseX1 = event.touches[0].clientX;
-            pmouseY1 = event.touches[0].clientY;
-            pmouseX2 = event.touches[1].clientX;
-            pmouseY2 = event.touches[1].clientY;
-
-        }else{  //1フレーム前も2本指のとき、1フレーム前と現在の2点分のタッチ座標を使ってズーム値を変更し、1フレーム前の座標を更新
-
-            let mx1, my1, mx2, my2;
-            mx1 = event.touches[0].clientX;
-            my1 = event.touches[0].clientY;
-            mx2 = event.touches[1].clientX;
-            my2 = event.touches[1].clientY;
-
-            let d1, d2; 
-            d1 = Math.sqrt((pmouseX1-pmouseX2)**2+(pmouseY1-pmouseY2)**2);  //1フレーム前の2つのタップ箇所の距離
-            d2 = Math.sqrt((mx1-mx2)**2+(my1-my2)**2);  //現在の2つのタップ箇所の距離
-
-            active_camera.zoom += ( d2 / d1 - 1) * 1; //最後の定数を大きくすると変化が大きくなる
-            
-            active_camera.updateProjectionMatrix();
-
-            pmouseX1 = mx1;
-            pmouseY1 = my1;
-            pmouseX2 = mx2;
-            pmouseY2 = my2;
-
-        }
-
-    }else if(event.touches.length==1){  //指1本で触れている、1フレーム前の座標を1点分のみ更新
-
-        if(pmouseX1==-1 || pmouseY1==-1){
-            pmouseX1 = event.touches[0].clientX;
-            pmouseY1 = event.touches[0].clientY;
-        }else{
-            mousemovementX = event.touches[0].clientX - pmouseX1;
-            mousemovementY = event.touches[0].clientY - pmouseY1;
-            pmouseX1 = event.touches[0].clientX;
-            pmouseY1 = event.touches[0].clientY;
-        }
-
-    }
-}
-
-
-//タッチデバイスから指を離したときの処理
-function handleTouchEndC(){
-    pmouseX1 = -1;
-    pmouseY1 = -1;
-    pmouseX2 = -1;
-    pmouseY2 = -1;
-    twofinger = false;
-}
-
-
-
-
 
 //マウスホイールイベント　カメラのズーム値を変更
 document.addEventListener('wheel', function(event) {
@@ -316,7 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 //#############################################################
-//　カメラ　・　オブジェクト
+//　カメラ　・　オブジェクト　に関連した自作関数
 //#############################################################
 
 
@@ -479,10 +487,6 @@ function animateC(){
         }
     });
 
-    dummymesh.rotateOnWorldAxis(axis, rad);
-    rotationX = dummymesh.rotation.x;
-    rotationY = dummymesh.rotation.y;
-    rotationZ = dummymesh.rotation.z;
 
 
     active_renderer.render(active_scene, active_camera);
