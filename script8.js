@@ -7,7 +7,7 @@ func1 = function(r,t){
 setBackgroundColorC(0xeeeeee);
 
 //カメラ
-addOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+addOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5});
 
 //ライト
 addAmbientLightC(0xffffff, 0.4);
@@ -22,7 +22,7 @@ let detail1 = 81;   //曲面のポリゴンの分割数
 let detail2 = 41;   //チューブの分割数
 let detail3 = 10;   //グリッドの分割数
 let bottom_height = -1; //底辺の高さ
-let scale1 = 2.5; //オブジェクトのスケール
+let scale1 = 2; //オブジェクトのスケール
 let tubethick = 0.025;  //チューブの太さ
 
 func1_bottom = function(x, y){return [x, y, bottom_height]};
@@ -44,8 +44,10 @@ let vts7b = tube_vts1C(points, tubethick, 6);
 let index7b = tube_indexC(1, 6);
 
 
-addMeshC("main_mesh_vts_1", main_mesh_index_1, {color:meshcolor, scale:scale1});
+
 addMeshC("vts7b", index7b, {color:0xffff00, scale:scale1});
+addMeshC("main_mesh_vts_1", main_mesh_index_1, {color:meshcolor, scale:scale1, opacity:0.8});
+
 
 slider1.func = () =>{
 

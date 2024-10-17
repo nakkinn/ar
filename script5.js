@@ -7,7 +7,7 @@ func1 = function(x,y){
 setBackgroundColorC(0xeeeeee);
 
 //カメラ
-addOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+addOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5});
 
 //ライト
 addAmbientLightC(0xffffff, 0.4);

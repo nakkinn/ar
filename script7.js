@@ -7,7 +7,7 @@ func1 = function(x,y){
 setBackgroundColorC(0xeeeeee);
 
 //カメラ
-addOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
+addOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5});
 
 //ライト
 addAmbientLightC(0xffffff, 0.4);
@@ -48,11 +48,13 @@ let index7b = tube_indexC(1, 6);
 let vts7b2 = tube_vts1C(points2, tubethick, 6);
 
 
-addMeshC("main_mesh_vts_1", main_mesh_index_1, {color:meshcolor, scale:scale1});
+
 addMeshC(xaxis, index7b, {scale:scale1, color:0xff0000});    //赤チューブ
 addMeshC(yaxis, index7b, {scale:scale1, color:0x0000ff});    //青チューブ
 addMeshC("vts7b", index7b, {color:0xffff00, scale:scale1});
 addMeshC("vts7b2", index7b, {color:0xffff00, scale:scale1});
+addMeshC("main_mesh_vts_1", main_mesh_index_1, {color:meshcolor, scale:scale1, opacity:1});    //曲面
+
 
 slider1.func = () =>{
 
