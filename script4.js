@@ -56,6 +56,8 @@ let renderer8 = new THREE.WebGLRenderer({
 renderer8.setClearColor(0xeeeeee, 1); 
 
 
+angularvelocity1.set(0, 1, 0);
+
 //カメラ
 let camera1 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
 let camera2 = createOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
@@ -647,8 +649,8 @@ scene8.add(surf8);
 scene8.add(surf8b);
 
 
-slider2.func = () =>{
-    parameter8 = PI * slider2.value * 3;
+slider4.func = () =>{
+    parameter8 = PI * slider4.value * 3;
     points8 = [[1.5*cos(parameter8), 1.5*sin(parameter8), sin(2*parameter8)/2], [1.5*cos(parameter8+PI), 1.5*sin(parameter8+PI), sin(2*parameter8)/2]];
     vts8b = tube_vts1C(points8, 0.025, 6);
     updateObjectC( scene8 );
