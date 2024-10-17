@@ -24,7 +24,7 @@ let detail3 = 10;   //グリッドの分割数
 let bottom_height = -1; //底辺の高さ
 let xrange1 = [-1, 1];   //xの定義域
 let yrange1 = [-1, 1];   //yの定義域
-let scale1 = 2; //オブジェクトのスケール
+let scale1 = 2.5; //オブジェクトのスケール
 let tubethick = 0.02;  //チューブの太さ
 
 func1_bottom = function(x, y){return [x, y, bottom_height]};

@@ -22,7 +22,7 @@ let detail1 = 81;   //曲面のポリゴンの分割数
 let detail2 = 41;   //チューブの分割数
 let detail3 = 10;   //グリッドの分割数
 let bottom_height = -1; //底辺の高さ
-let scale1 = 2; //オブジェクトのスケール
+let scale1 = 2.5; //オブジェクトのスケール
 let tubethick = 0.025;  //チューブの太さ
 
 func1_bottom = function(x, y){return [x, y, bottom_height]};
