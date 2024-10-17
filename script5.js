@@ -1,5 +1,5 @@
 func1 = function(x,y){
-    return [x, y, x*x - y*y];
+    return [x, y, x / sqrt(x*x + y*y)];
 }
 
 
@@ -17,7 +17,7 @@ addDirectionalLightC(0xffffff, 0.7, 0, 1, 1);
 
 let tubecolor1 = 0xffffff;
 let tubecolor2 = 0x555555;
-let meshcolor = 0xff0088;
+let meshcolor = 0x00ff88;
 let detail1 = 81;   //曲面のポリゴンの分割数
 let detail2 = 41;   //チューブの分割数
 let detail3 = 10;   //グリッドの分割数
@@ -26,6 +26,7 @@ let xrange1 = [-1, 1];   //xの定義域
 let yrange1 = [-1, 1];   //yの定義域
 let scale1 = 2; //オブジェクトのスケール
 let tubethick = 0.015;  //チューブの太さ
+let opacity1 = 0.6;
 
 func1_bottom = function(x, y){return [x, y, bottom_height]};
 
@@ -52,7 +53,7 @@ addMeshC("vtubes_vts_1", uvtube_index_1, {color:tubecolor2, scale:scale1});
 addMeshC("utubes_vts0_1", uvtube_index0_1, {color:tubecolor1, scale:scale1});
 addMeshC("vtubes_vts0_1", uvtube_index0_1, {color:tubecolor2, scale:scale1});
 
-addMeshC("main_mesh_vts_1", main_mesh_index_1, {color:meshcolor, scale:scale1});
+addMeshC("main_mesh_vts_1", main_mesh_index_1, {color:meshcolor, scale:scale1, opacity:opacity1});
 
 
 animateC();

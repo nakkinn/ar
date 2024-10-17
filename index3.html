@@ -7,142 +7,57 @@
 
   <body>
 
-    <!--自作スライダーライブラリ-->
+    <!--自作スライダーライブラリ　スライダーを追加する前に記述する-->
     <script src="myslider.js"></script>
 
-    <!--MathJX-->
+    <!--MathJX　数式を表記するためのライブラリ-->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+    <h4> \( z = x^3 - x - y^2 \) </h4>
 
-    <h3>10/9　微分積分演習Ⅱ　2変数関数の曲面</h3>
+    <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
 
-
-    <h5> \( z = \mathrm{Tan} ^{-1} xy \) </h5>
-
-    <!--キャンバス要素の生成　キャンバスを非表示にしたい場合は<canvas>の中にhiddenと記述する-->
-    <canvas id="canvas1" style="margin-left:-8px"></canvas> 
-    <!--キャンバスのサイズ指定-->
     <script>  
-      let canvas1 = document.getElementById('canvas1'); 
-      var size1 = Math.min(500, window.innerWidth * 0.85);  //画面横幅より広くなるのを回避するためにmin関数を使用
-      canvas1.width = size1 * window.devicePixelRatio;  //画素数
-      canvas1.height = size1 * window.devicePixelRatio;
-      canvas1.style.width = size1;  //サイズ
-      canvas1.style.height = size1;
+      let canvas1 = document.getElementById('3d_graphic_canvas'); 
+      let size = Math.min(500, window.innerWidth*0.85);
+      canvas1.width = size * window.devicePixelRatio; 
+      canvas1.height = size * window.devicePixelRatio * 0.9;
+      canvas1.style.width = size;
+      canvas1.style.height = size * 0.9;
     </script>
 
+    <div style="height:30px"></div>
+
+    <!--別ページにとぶボタン-->
+    <div style="display:flex">
+      <button id="button1" style="height:35px; margin-left:5px;"> \( z = x \, y \)</button>
+      <button id="button2" style="height:35px; margin-left:5px;"> \( z = x^2 + y^2 \)</button>
+      <button id="button3" style="height:35px; margin-left:5px;"> \( z = x^3 - x - y^2 \)</button>
+      <button id="button4" style="height:35px; margin-left:5px;"> \( z = \mathrm{Tan}^{-1}\frac{y}{x} \)</button>
+      <button id="button5" style="height:35px; margin-left:5px;"> \( z = \frac{x}{\sqrt{x^2 + y^2}} \)</button>
+      <button id="button6" style="height:35px; margin-left:5px;"> \( z = \mathrm{Tan}^{-1} x \, y \)</button>
+      <button id="button7" style="height:35px; margin-left:5px;"> \( z = \frac{xy}{x^2+y^2} \)</button>
+      <button id="button8" style="height:35px; margin-left:5px;"> \( z = \frac{\mathrm{sin} \, 2\theta}{2} \)</button>
+    </div>
+
+    <!--ボタンを押したときの処理-->
     <script>
-      let slider3 = {}, slider4 = {}; //スライダーを削除する場合この行は削除しない
-      slider3 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
-      slider4 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
+      document.getElementById("button1").addEventListener("click", ()=>{window.location.href = "index.html";});
+      document.getElementById("button2").addEventListener("click", ()=>{window.location.href = "index2.html";});
+      document.getElementById("button3").addEventListener("click", ()=>{window.location.href = "index3.html";});
+      document.getElementById("button4").addEventListener("click", ()=>{window.location.href = "index4.html";});
+      document.getElementById("button5").addEventListener("click", ()=>{window.location.href = "index5.html";});
+      document.getElementById("button6").addEventListener("click", ()=>{window.location.href = "index6.html";});
+      document.getElementById("button7").addEventListener("click", ()=>{window.location.href = "index7.html";});
+      document.getElementById("button8").addEventListener("click", ()=>{window.location.href = "index8.html";});
     </script>
 
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \mathrm{Tan} ^{-1} \dfrac{y}{x} \) </h5>
-
-
-    <canvas id="canvas2" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas2 = document.getElementById('canvas2'); 
-      canvas2.width = size1 * window.devicePixelRatio; 
-      canvas2.height = size1 * window.devicePixelRatio;
-      canvas2.style.width = size1; 
-      canvas2.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{e^{xy}}{e^x + e^y} \) </h5>
-
-    <canvas id="canvas3" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas3= document.getElementById('canvas3'); 
-      canvas3.width = size1 * window.devicePixelRatio; 
-      canvas3.height = size1 * window.devicePixelRatio;
-      canvas3.style.width = size1; 
-      canvas3.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{x}{\sqrt{x^2 + y^2}} \) </h5>
-
-    <canvas id="canvas4" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas4= document.getElementById('canvas4'); 
-      canvas4.width = size1 * window.devicePixelRatio; 
-      canvas4.height = size1 * window.devicePixelRatio;
-      canvas4.style.width = size1; 
-      canvas4.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \mathrm{sin} \, xy \) </h5>
-
-    <canvas id="canvas5" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas5= document.getElementById('canvas5'); 
-      canvas5.width = size1 * window.devicePixelRatio; 
-      canvas5.height = size1 * window.devicePixelRatio;
-      canvas5.style.width = size1; 
-      canvas5.style.height = size1;
-    </script>
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{xy}{x^2+y^2} \) </h5>
-
-    <canvas id="canvas6" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas6= document.getElementById('canvas6'); 
-      canvas6.width = size1 * window.devicePixelRatio; 
-      canvas6.height = size1 * window.devicePixelRatio;
-      canvas6.style.width = size1; 
-      canvas6.style.height = size1;
-    </script>
-
-    <script>
-      let slider2 = {}; //スライダーを削除する場合この行は削除しない
-      slider2 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
-    </script>
-
-
-    <div style="height:10px"></div>
-
-
-    <h5> \( z = \dfrac{\mathrm{sin} \, 2\theta}{2} \) </h5>
-
-    <canvas id="canvas7" style="margin-left:-8px"></canvas> 
-    <script>  
-      let canvas7 = document.getElementById('canvas7'); 
-      canvas7.width = size1 * window.devicePixelRatio; 
-      canvas7.height = size1 * window.devicePixelRatio;
-      canvas7.style.width = size1; 
-      canvas7.style.height = size1;
-    </script>
-
-    <script>
-      let slider1 = {}; //スライダーを削除する場合この行は削除しない
-      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:1});
-    </script>
-
-
-
-    <!--three.jsライブラリ　CDNを使ってインターネット経由でライブラリをインポートする-->
+    <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
 
-
-    <!--プログラム-->
-    <script src="common_cgweb2.js"></script> <!--three.jsの機能を扱いやすくするための自作ライブラリ-->
-    <script src='script1.js'></script>  <!--表示するオブジェクトやレンダリングの設定、スライダー操作時の処理について記述したファイル-->
+    <!--メインソース-->
+    <script src="common_cgweb1.js"></script>
+    <script src='script3.js'></script> 
 
 
   </body>

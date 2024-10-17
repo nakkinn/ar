@@ -13,7 +13,8 @@
     <!--MathJX　数式を表記するためのライブラリ-->
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
-    <h4> \( z = x \, y \) </h4>
+    <h4> \( z = \dfrac{xy}{x^2+y^2} \) </h4>
+    <p>x軸：赤, y軸：青</p>
 
     <canvas id="3d_graphic_canvas" style="margin-left:-8px"></canvas> 
 
@@ -26,6 +27,10 @@
       canvas1.style.height = size * 0.9;
     </script>
 
+    <script>
+      let slider1 = {};
+      slider1 = new Slider1d({width:Math.min(300, window.innerWidth),bar_width:Math.min(300*0.7, window.innerWidth*0.7),height:50,bar_height:15,thumb_radius:20,background_color:"#ffffff",value:0});
+    </script>
 
     <div style="height:30px"></div>
 
@@ -53,14 +58,12 @@
       document.getElementById("button8").addEventListener("click", ()=>{window.location.href = "index8.html";});
     </script>
 
-
-
     <!--three.jsライブラリ-->
     <script src="https://unpkg.com/three@0.131.3/build/three.min.js"></script>
 
     <!--メインソース-->
     <script src="common_cgweb1.js"></script>
-    <script src='script1.js'></script> 
+    <script src='script7.js'></script> 
 
 
   </body>

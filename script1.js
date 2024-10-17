@@ -1,123 +1,62 @@
-//レンダラー
-let renderer1 = new THREE.WebGLRenderer({
-    canvas:document.getElementById('canvas1'),  //idを指定
-    antialias: true,    //境界線のスムーズ
-    alpha:false //透過
-});
-renderer1.setClearColor(0xeeeeee, 1);  //背景色（第1引数：色, 第2引数：透明度 0のとき透明,1のとき不透明）
-
-let renderer2 = new THREE.WebGLRenderer({
-    canvas:document.getElementById('canvas2'),
-    antialias: true
-});
-renderer2.setClearColor(0xeeeeee);  //背景色
-
-let renderer3 = new THREE.WebGLRenderer({
-    canvas:document.getElementById('canvas3'),
-    antialias: true
-});
-renderer3.setClearColor(0xeeeeee);  //背景色
+func1 = function(x,y){
+    return [x, y, x*y];
+}
 
 
+//背景色
+setBackgroundColorC(0xeeeeee);
 
 //カメラ
-let camera1 = createPerspectiveCameraC({fov:60, near:0.01, far:500, zoom:1, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //透視投影カメラ（オブションは省略可能）
-let camera2 = createOrthographicCameraC({near:0.01, far:500, zoom:1, range:5, pos:[0, -10, 0], up:[0, 0, 1], lookat:[0,0,0]}); //平行投影カメラ（オブションは省略可能）
-let camera3 = createPerspectiveCameraC();
-
-
-
-//シーン
-let scene1 = new SceneC(renderer1, camera1);
-let scene2 = new SceneC(renderer2, camera2);
-let scene3 = new SceneC(renderer3, camera3);
-
-
+addOrthographicCameraC({fov:40, near:0.01, far:500, zoom:1.5, pos:[0, 0, 10], up:[0, 1, 0], lookat:[0,0,0]});
 
 //ライト
-let lighta1 = new THREE.AmbientLight(0xffffff, 0.3) //環境ライト
-
-let lightd1 = new THREE.DirectionalLight(0xffffff, 0.6);    //指向性ライト
-lightd1.position.set( 0, -1, 1 )
-
-scene1.add( lighta1.clone() );  //シーンにライトを追加する　同じライトを複数のキャンバスに追加する場合 .clone を付ける
-scene1.add( lightd1.clone() );
-scene2.add( lighta1.clone() );
-scene2.add( lightd1.clone() );
-scene3.add( lighta1.clone() );
-scene3.add( lightd1.clone() );
-
-
+addAmbientLightC(0xffffff, 0.4);
+addDirectionalLightC(0xffffff, 0.7, 0, 1, 1);
 
 //オブジェクト
 
-//【キャンバス１】
-//正二十面体頂点リスト
-let ico_vts = [[2., 3.23607, 0.], [2., -3.23607, 0.], [-2., -3.23607, 0.], [-2., 3.23607, 0.], [0., 2., 3.23607], [0., 2., -3.23607], [0., -2., -3.23607], [0., -2., 3.23607], [3.23607, 0., 2.], [-3.23607, 0., 2.], [-3.23607, 0., -2.], [3.23607, 0., -2.]];
-//正二十面体ポリゴンインデックスリスト
-let ico_index = [[0,3,4],[0,3,5],[0,4,8],[0,5,11],[0,8,11],[1,2,6],[1,2,7],[1,6,11],[1,7,8],[1,8,11],[2,6,10],[2,7,9],[2,9,10],[3,4,9],[3,5,10],[3,9,10],[4,7,8],[4,7,9],[5,6,10],[5,6,11]];
-//正二十面体（橙）
-let mesh1 = createMeshC(ico_vts, ico_index, {color:0xff5500, scale:1, flatshade:true, opacity:1, wireframe:false, spherecutradius:-1, side:0, rotation:[0,0,0], position:[0,0,0]});
-//シーンに追加
-scene1.add(mesh1);
+let tubecolor1 = 0xffffff;
+let tubecolor2 = 0x555555;
+let meshcolor = 0xff6600;
+let detail1 = 81;   //曲面のポリゴンの分割数
+let detail2 = 41;   //チューブの分割数
+let detail3 = 10;   //グリッドの分割数
+let bottom_height = -1; //底辺の高さ
+let xrange1 = [-1, 1];   //xの定義域
+let yrange1 = [-1, 1];   //yの定義域
+let scale1 = 2; //オブジェクトのスケール
+let tubethick = 0.015;  //チューブの太さ
+
+func1_bottom = function(x, y){return [x, y, bottom_height]};
+
+let list1a = [];
+for(let i=0; i<=detail3; i++) list1a.push((yrange1[1]-yrange1[0])/detail3*i + yrange1[0]);
+let list1b = [];
+for(let i=0; i<=detail3; i++)   list1b.push((xrange1[1]-xrange1[0])/detail3*i + xrange1[0]);
+
+let utubes_vts_1 = tubeU_vtsC(func1, list1a, xrange1, detail2, tubethick, 6);
+let vtubes_vts_1 = tubeV_vtsC(func1, list1b, yrange1, detail2, tubethick, 6);
+
+let utubes_vts0_1 = tubeU_vtsC(func1_bottom, list1a, xrange1, 1, tubethick, 6);
+let vtubes_vts0_1 = tubeV_vtsC(func1_bottom, list1b, yrange1, 1, tubethick, 6);
+
+let uvtube_index_1 = tube_indexC(detail2, 6, list1a.length);
+let uvtube_index0_1 = tube_indexC(1, 6, list1b.length);
+
+let main_mesh_vts_1 = parametric_vtsC(func1, xrange1, yrange1, detail1, detail1);
+let main_mesh_index_1 = parametric_indexC(detail1, detail1);
 
 
-//【キャンバス２】
-//u,vを入力とし、(x,y,z)を返す関数
-let func1 = function(u,v){
-    let x, y, z;
-    x = u;
-    y = v;
-    z = u*u -v*v;
-    return [x,y,z];
-}
+addMeshC("utubes_vts_1", uvtube_index_1, {color:tubecolor1, scale:scale1});
+addMeshC("vtubes_vts_1", uvtube_index_1, {color:tubecolor2, scale:scale1});
+addMeshC("utubes_vts0_1", uvtube_index0_1, {color:tubecolor1, scale:scale1});
+addMeshC("vtubes_vts0_1", uvtube_index0_1, {color:tubecolor2, scale:scale1});
 
-let surf_vts = parametric_vtsC(func1, [-1,1], [-1,1], 40, 40);  //円柱の頂点リスト
-let surf_index = parametric_indexC(40, 40); //円柱のポリゴンインデックスリスト
-let mesh2 = createMeshC(surf_vts, surf_index, {color:0x0066ff, scale:3});   //円柱
-scene2.add(mesh2);
+addMeshC("main_mesh_vts_1", main_mesh_index_1, {color:meshcolor, scale:scale1});
 
 
-//【キャンバス３】
-let parameter1 = 0.5;
-let mobius_func = function(u,v){
-    let x, y, z;
-    let a1 = 5;
-    let a2 = 0.1 + 3*parameter1; //slider1はhtmlファイルで定義している　slider1.valueは0以上1以下
-    x = cos(u) * (a1 + a2 * v * cos(u/2));
-    y = sin(u) * (a1 + a2 * v * cos(u/2));
-    z = a2 * v * sin(u/2);
-    return [x,y,z];
-}
-
-let mobius_vts = parametric_vtsC(mobius_func, [0,2*PI], [-1,1], 60, 5);
-let mobius_index = parametric_indexC(60, 5);
-let mesh3 = createMeshC("mobius_vts", mobius_index, {color:0x00aa66, scale:0.7});
-scene3.add(mesh3);
-
-//スライダー操作時の処理
-slider1.func = () => {
-    parameter1 = slider1.value; //パラメータにスライダーの値を代入
-    mobius_vts = parametric_vtsC(mobius_func, [0,2*PI], [-1,1], 60, 5); //頂点を再計算
-    updateObjectC(scene3);  //オブジェクトを更新（シーンを指定する）
-};
-
-
-
-//レンダリング
-renderer1.render(scene1, camera1);
-renderer2.render(scene2, camera2);
-renderer3.render(scene3, camera3);
 animateC();
 
 
 
 
-
-/*
-メモ
-
-scene, camera, rendererはキャンバスの数だけ用意する
-
-
-*/
