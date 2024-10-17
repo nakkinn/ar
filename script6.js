@@ -1,4 +1,3 @@
-
 //曲面の2変数関数
 let func6 = function(x,y){
     return [x, y, 2 * atan(x*y)];
@@ -13,6 +12,15 @@ let func6dx = function(x, y){
 let func6dy = function(x, y){
     return 2 * x / (x*x*y*y+1);
 }
+
+
+//表示非表示
+let surface_visible = true;
+let tube_visible = true;
+let slice_visible = true;
+let hashira_visible = true;
+let setsuheimen_visible = true;
+
 
 //キャンバスの背景色
 setBackgroundColorC(0xeeeeee);   
@@ -54,6 +62,8 @@ let yajirusi_thick = 0.08;    //傾きを示すチューブの太さ
 
 let visible6b= true;
 let opacity6b = 0.5;
+
+
 
 //注目する座標
 let x1 = xrange6[1], y1 = yrange6[1];
@@ -120,12 +130,29 @@ let vtubes_vts0 = tubeV_vtsC(func_bottom, list2, yrange6, 1, tubethick, 6);
 let uvtube_index = tube_indexC(detail2, 6, list1.length);
 let uvtube_index0 = tube_indexC(1, 6, list2.length);
 
+let utube_main_vts = tubeU_vtsC(func6, [y1], xrange6, detail2, tubethick*1.8, 6);
+let vtube_main_vts = tubeV_vtsC(func6, [x1], yrange6, detail2, tubethick*1.8, 6);
+
 
 //スライスのgc
 let slice1_vts, slice2_vts;
 slice1_vts = uslice_vtsC(func6, y1, xrange6, detail2, bottom_height);
 slice2_vts = vslice_vtsC(func6, x1, yrange6, detail2, bottom_height);
 let slice_index = ribbon_indexC(detail2);
+
+
+//柱
+let hashira1_core_vts = [[xrange6[0],yrange6[0],bottom_height], [xrange6[0],yrange6[0],func6(xrange6[0],yrange6[0])[2]]];
+let hashira2_core_vts = [[xrange6[1],yrange6[0],bottom_height], [xrange6[1],yrange6[0],func6(xrange6[1],yrange6[0])[2]]];
+let hashira3_core_vts = [[xrange6[1],yrange6[1],bottom_height], [xrange6[1],yrange6[1],func6(xrange6[1],yrange6[1])[2]]];
+let hashira4_core_vts = [[xrange6[0],yrange6[1],bottom_height], [xrange6[0],yrange6[1],func6(xrange6[0],yrange6[1])[2]]];
+let hashira5_core_vts = [[x1, y1, bottom_height], [x1, y1,func6(x1, y1)[2]]];
+
+let hashira1_vts = tube_vts1C(hashira1_core_vts, tubethick, 6);
+let hashira2_vts = tube_vts1C(hashira2_core_vts, tubethick, 6);
+let hashira3_vts = tube_vts1C(hashira3_core_vts, tubethick, 6);
+let hashira4_vts = tube_vts1C(hashira4_core_vts, tubethick, 6);
+let hashira5_vts = tube_vts1C(hashira5_core_vts, tubethick*2, 6);
 
 
 function scaleset(arg, sc){
@@ -156,21 +183,64 @@ function vslice_vtsC(func, u1, vrange, m, soko){
 
 
 
-addMeshC("pointer_sphere_vts", pointer_sphere_index, {color:0x00ff00, scale:scale1});   //球
+addMeshC("pointer_sphere_vts", pointer_sphere_index, {color:0x00ff00, scale:scale1, visible:"setsuheimen_visible"});   //球
 
-addMeshC("redtube_vts", tube_index, {color:0xff0000, scale:scale1});  //傾き
-addMeshC("bluetube_vts", tube_index, {color:0x0000ff, scale:scale1});   //傾き
+addMeshC("redtube_vts", tube_index, {color:0xff0000, scale:scale1, visible:"setsuheimen_visible"});  //傾き
+addMeshC("bluetube_vts", tube_index, {color:0x0000ff, scale:scale1, visible:"setsuheimen_visible"});   //傾き
 
-addMeshC(utubes_vts, uvtube_index, {color:tubecolor1, scale:scale1, visible:"visible6b"});    //曲面上のグリッド
-addMeshC(vtubes_vts, uvtube_index, {color:tubecolor2, scale:scale1, visible:"visible6b"});
-addMeshC(utubes_vts0, uvtube_index0, {color:tubecolor1, scale:scale1, visible:"visible6b"});  //床グリッド
-addMeshC(vtubes_vts0, uvtube_index0, {color:tubecolor2, scale:scale1, visible:"visible6b"});
+addMeshC(utubes_vts, uvtube_index, {color:tubecolor1, scale:scale1, visible:"tube_visible"});    //曲面上のグリッド
+addMeshC(vtubes_vts, uvtube_index, {color:tubecolor2, scale:scale1, visible:"tube_visible"});
+addMeshC(utubes_vts0, uvtube_index0, {color:tubecolor1, scale:scale1, visible:"tube_visible"});  //床グリッド
+addMeshC(vtubes_vts0, uvtube_index0, {color:tubecolor2, scale:scale1, visible:"tube_visible"});
 
-addMeshC("slice1_vts", slice_index, {color:0xff6600, scale:scale1, visible:"visible6b"});   //スライス
-addMeshC("slice2_vts", slice_index, {color:0x00aaff, scale:scale1, visible:"visible6b"});   
+addMeshC("utube_main_vts", uvtube_index, {color:tubecolor1, scale:scale1, visible:"tube_visible"});    //スライスと重なるチューブ
+addMeshC("vtube_main_vts", uvtube_index, {color:tubecolor2, scale:scale1, visible:"tube_visible"});
 
-addMeshC("setsuheimen_vts", setsuheimen_index, {color:0x00aa00, scale:scale1, opacity:0.8});  //接平面 
-addMeshC(main_mesh_vts, main_mesh_mesh, {color:0xffff00, scale:scale1, opacity:"opacity6b"});    //曲面
+addMeshC("slice1_vts", slice_index, {color:0xff6600, scale:scale1, visible:"slice_visible"});   //スライス
+addMeshC("slice2_vts", slice_index, {color:0x00aaff, scale:scale1, visible:"slice_visible"});   
+
+addMeshC("setsuheimen_vts", setsuheimen_index, {color:0x00aa00, scale:scale1, opacity:0.8, visible:"setsuheimen_visible"});  //接平面 
+addMeshC(main_mesh_vts, main_mesh_mesh, {color:0xffff00, scale:scale1, opacity:"opacity6b", visible:"surface_visible"});    //曲面
+
+//四隅の柱
+addMeshC(hashira1_vts, uvtube_index0, {color:tubecolor2, scale:scale1, visible:"tube_visible"});
+addMeshC(hashira2_vts, uvtube_index0, {color:tubecolor2, scale:scale1, visible:"tube_visible"});
+addMeshC(hashira3_vts, uvtube_index0, {color:tubecolor2, scale:scale1, visible:"tube_visible"});
+addMeshC(hashira4_vts, uvtube_index0, {color:tubecolor2, scale:scale1, visible:"tube_visible"});
+
+//スライスが交わる箇所の柱
+addMeshC("hashira5_vts", uvtube_index0, {color:0xffffff, scale:scale1, visible:"slice_visible"});
+
+const check1 = document.getElementById("check1");
+const check2 = document.getElementById("check2");
+const check3 = document.getElementById("check3");
+const check4 = document.getElementById("check4");
+const check5 = document.getElementById("check5");
+
+if(check1)  check1.addEventListener("input", ()=>{
+    surface_visible = check1.checked;
+    updateObjectC();
+});
+
+if(check2)  check2.addEventListener("input", ()=>{
+    tube_visible = check2.checked;
+    updateObjectC();
+});
+
+if(check3)  check3.addEventListener("input", ()=>{
+    slice_visible = check3.checked;
+    updateObjectC();
+});
+
+if(check4)  check4.addEventListener("input", ()=>{
+    hashira_visible = check4.checked;
+    updateObjectC();
+});
+
+if(check5)  check5.addEventListener("input", ()=>{
+    setsuheimen_visible = check5.checked;
+    updateObjectC();
+});
 
 
 slider1.func = () =>{
@@ -195,6 +265,12 @@ slider1.func = () =>{
 
         slice1_vts = uslice_vtsC(func6, y1, xrange6, detail2, bottom_height);
         slice2_vts = vslice_vtsC(func6, x1, yrange6, detail2, bottom_height);
+
+        hashira5_core_vts = [[x1, y1, bottom_height], [x1, y1,func6(x1, y1)[2]]];
+        hashira5_vts = tube_vts1C(hashira5_core_vts, tubethick*2, 6);
+
+        utube_main_vts = tubeU_vtsC(func6, [y1], xrange6, detail2, tubethick*1.8, 6);
+        vtube_main_vts = tubeV_vtsC(func6, [x1], yrange6, detail2, tubethick*1.8, 6);
 
         updateObjectC();
 
@@ -226,6 +302,12 @@ slider2.func = () =>{
         slice1_vts = uslice_vtsC(func6, y1, xrange6, detail2, bottom_height);
         slice2_vts = vslice_vtsC(func6, x1, yrange6, detail2, bottom_height);
 
+        hashira5_core_vts = [[x1, y1, bottom_height], [x1, y1,func6(x1, y1)[2]]];
+        hashira5_vts = tube_vts1C(hashira5_core_vts, tubethick*2, 6);
+
+        utube_main_vts = tubeU_vtsC(func6, [y1], xrange6, detail2, tubethick*1.8, 6);
+        vtube_main_vts = tubeV_vtsC(func6, [x1], yrange6, detail2, tubethick*1.8, 6);
+        
         updateObjectC();
 
     }

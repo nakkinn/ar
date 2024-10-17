@@ -36,7 +36,8 @@ for(let i=0; i<=detail3; i++) list1a.push((yrange1[1]-yrange1[0])/detail3*i + yr
 let list1b = [];
 for(let i=0; i<=detail3; i++)   list1b.push((xrange1[1]-xrange1[0])/detail3*i + xrange1[0]);
 
-let utubes_vts_1 = tubeU_vtsC(func1, list1a, xrange1, detail2, tubethick, 6);
+let utubes_vts_1 = tubeU_vtsC(func1, list1a, [-1,-0.01], detail2, tubethick, 6);
+let utubes_vts_1b = tubeU_vtsC(func1, list1a, [0.01,1], detail2, tubethick, 6);
 let vtubes_vts_1 = tubeV_vtsC(func1, list1b, yrange1, detail2, tubethick, 6);
 
 let utubes_vts0_1 = tubeU_vtsC(func1_bottom, list1a, xrange1, 1, tubethick, 6);
@@ -50,6 +51,7 @@ let main_mesh_index_1 = parametric_indexC(detail1, detail1);
 
 
 addMeshC("utubes_vts_1", uvtube_index_1, {color:tubecolor1, scale:scale1});
+addMeshC("utubes_vts_1b", uvtube_index_1, {color:tubecolor1, scale:scale1});
 addMeshC("vtubes_vts_1", uvtube_index_1, {color:tubecolor2, scale:scale1});
 addMeshC("utubes_vts0_1", uvtube_index0_1, {color:tubecolor1, scale:scale1});
 addMeshC("vtubes_vts0_1", uvtube_index0_1, {color:tubecolor2, scale:scale1});
